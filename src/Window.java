@@ -1,32 +1,73 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Window extends JFrame
 {
+    private String configFilePath = System.getProperty("user.dir") + "/res/window.init";
+    private File configFile = new File(configFilePath);
+
+
+    String[] columnNames = {
+            "#",
+            "First Name",
+            "Last Name",
+            "Sport",
+            "# of Years",
+            "Vegetarian"
+    };
+
+    Object[][] data = {
+            {1,"Kathy", "Smith", "Snowboarding", 5, false},
+            {2,"John", "Doe", "Rowing", 3, true},
+            {3,"Sue", "Black", "Knitting", 2, false},
+            {4,"Jane", "White", "Speed reading", 20, true},
+            {5,"Joe", "Brown", "Pool", 10, false},
+            {6,"Kathy", "Smith", "Snowboarding", 5, false},
+            {7,"John", "Doe", "Rowing", 3, true},
+            {8,"Sue", "Black", "Knitting", 2, false},
+            {9,"Jane", "White", "Speed reading", 20, true},
+            {10,"Joe", "Brown", "Pool", 10, false},
+            {11,"Kathy", "Smith", "Snowboarding", 5, false},
+            {12,"John", "Doe", "Rowing", 3, true},
+            {13,"Sue", "Black", "Knitting", 2, false},
+            {14,"Jane", "White", "Speed reading", 20, true},
+            {15,"Joe", "Brown", "Pool", 10, false},
+            {16,"Kathy", "Smith", "Snowboarding", 5, false},
+
+    };
+
+
     public Window()
     {
         InitConfig();
+        add(new MenuBar());
 
-        //this.setTitle(title);
-        //this.setPreferredSize(dimension);
-        //this.setLocation(point);
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //AddMenuBar();
-        //this.pack();
+        JTable table = new JTable(data, columnNames);
+        table.setFillsViewportHeight(true);
+        table.setPreferredScrollableViewportSize(new Dimension(500, 50));
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        add(scrollPane);
     }
+    public void start() { this.setVisible(true); }
+
 
     private void InitConfig()
     {
-        String configFilePath = System.getProperty("user.dir") + "/res/window.init";
-        File configFile = new File(configFilePath);
-
         String title = GetValueConfigFile(configFile, "title");
         int width = Integer.parseInt(GetValueConfigFile(configFile, "width"));
         int height = Integer.parseInt(GetValueConfigFile(configFile,"height"));
         int posX = Integer.parseInt(GetValueConfigFile(configFile, "posX"));
         int posY = Integer.parseInt(GetValueConfigFile(configFile, "posY"));
+
+        setPreferredSize(new Dimension(width, height));
+        setLocation(new Point(posX, posY));
+        setTitle(title);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
     }
 
     private String GetValueConfigFile(File configFile, String searchKey)
@@ -48,27 +89,4 @@ public class Window extends JFrame
 
         return new String();
     }
-
-
-
-    public void Show()
-    {
-        this.setVisible(true);
-    }
-
-    private void AddMenuBar()
-    {
-        JMenuBar menuBar = new JMenuBar();
-        this.setJMenuBar(menuBar);
-
-        JMenu file = new JMenu("file");
-        menuBar.add(file);
-
-        JMenu options = new JMenu("options");
-        menuBar.add(options);
-
-        JMenu help = new JMenu("help");
-        menuBar.add(help);
-    }
-
 }

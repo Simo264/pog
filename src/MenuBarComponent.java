@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedHashMap;
 
-public class MenuBar extends JMenuBar
+public class MenuBarComponent extends JMenuBar
 {
-    private static Window wParent;
+    private static Window windowParent;
 
     private JMenu file;
     private JMenuItem open;
@@ -14,9 +15,9 @@ public class MenuBar extends JMenuBar
     private JMenu options;
     private JMenu help;
 
-    MenuBar(Window parent)
+    MenuBarComponent(Window parent)
     {
-        wParent = parent;
+        windowParent = parent;
 
         file = new JMenu("file");
         open = new JMenuItem("open");
@@ -34,11 +35,11 @@ public class MenuBar extends JMenuBar
         add(options);
         add(help);
 
-        addActionListenerComponent(open, MenuBar::openEvent);
-        addActionListenerComponent(save, MenuBar::saveEvent);
-        addActionListenerComponent(exit, MenuBar::exitEvent);
-        addActionListenerComponent(options, MenuBar::optionsEvent);
-        addActionListenerComponent(help, MenuBar::helpEvent);
+        addActionListenerComponent(open, MenuBarComponent::openEvent);
+        addActionListenerComponent(save, MenuBarComponent::saveEvent);
+        addActionListenerComponent(exit, MenuBarComponent::exitEvent);
+        addActionListenerComponent(options, MenuBarComponent::optionsEvent);
+        addActionListenerComponent(help, MenuBarComponent::helpEvent);
     }
 
     private void addActionListenerComponent(JMenuItem item, Runnable method)
@@ -53,12 +54,14 @@ public class MenuBar extends JMenuBar
 
     private static void openEvent()
     {
-        System.out.println("To do openEvent...");
+
     }
     private static void saveEvent()
     {
-        System.out.println("To do saveEvent...");
+
     }
+
+
     private static void optionsEvent()
     {
         System.out.println("To do optionsEvent...");

@@ -3,39 +3,21 @@ import java.awt.*;
 
 public class Table extends JPanel
 {
+    private TableModel tableModel;
     private JTable table;
-
-
-    String[] columnNames = {
-            "First Name",
-            "Last Name",
-            "Sport",
-            "# of Years",
-            "Vegetarian"
-    };
-
-    Object[][] data = {
-            {"Kathy", "Smith", "Snowboarding", 5, false},
-            {"John", "Doe", "Rowing", 3, true},
-            {"Sue", "Black", "Knitting", 2, false},
-            {"Jane", "White", "Speed reading", 20, true},
-            {"Joe", "Brown", "Pool", 10, false}
-    };
+    private JScrollPane scrollPane;
 
     Table()
     {
-        setLayout(new FlowLayout());
+        setLayout(new BorderLayout());
 
-
-        table = new JTable(data, columnNames);
-        table.setFillsViewportHeight(true);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        add(scrollPane);
-        add(table);
-        setVisible(true);
+        tableModel = new TableModel();
+        table = new JTable(tableModel);
+        scrollPane = new JScrollPane(table);
+        table.setColumnSelectionAllowed(false);
+        table.setRowSelectionAllowed(false);
+        add(table.getTableHeader(), BorderLayout.PAGE_START);
+        add(scrollPane, BorderLayout.CENTER);
     }
-
 }
+

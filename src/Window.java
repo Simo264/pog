@@ -6,52 +6,25 @@ import java.util.Scanner;
 
 public class Window extends JFrame
 {
-    private String configFilePath = System.getProperty("user.dir") + "/res/window.init";
+    public static Dimension WINDOW_DIMENSION;
+    public static Point WINDOW_LOCATION;
+
+    public static MenuBar menuBar;
+    public static Table table;
+
+    private String configFilePath = System.getProperty("user.dir") + "/res/window.config";
     private File configFile = new File(configFilePath);
-
-
-    String[] columnNames = {
-            "#",
-            "First Name",
-            "Last Name",
-            "Sport",
-            "# of Years",
-            "Vegetarian"
-    };
-
-    Object[][] data = {
-            {1,"Kathy", "Smith", "Snowboarding", 5, false},
-            {2,"John", "Doe", "Rowing", 3, true},
-            {3,"Sue", "Black", "Knitting", 2, false},
-            {4,"Jane", "White", "Speed reading", 20, true},
-            {5,"Joe", "Brown", "Pool", 10, false},
-            {6,"Kathy", "Smith", "Snowboarding", 5, false},
-            {7,"John", "Doe", "Rowing", 3, true},
-            {8,"Sue", "Black", "Knitting", 2, false},
-            {9,"Jane", "White", "Speed reading", 20, true},
-            {10,"Joe", "Brown", "Pool", 10, false},
-            {11,"Kathy", "Smith", "Snowboarding", 5, false},
-            {12,"John", "Doe", "Rowing", 3, true},
-            {13,"Sue", "Black", "Knitting", 2, false},
-            {14,"Jane", "White", "Speed reading", 20, true},
-            {15,"Joe", "Brown", "Pool", 10, false},
-            {16,"Kathy", "Smith", "Snowboarding", 5, false},
-
-    };
-
 
     public Window()
     {
         InitConfig();
-        add(new MenuBar());
 
-        JTable table = new JTable(data, columnNames);
-        table.setFillsViewportHeight(true);
-        table.setPreferredScrollableViewportSize(new Dimension(500, 50));
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane);
+        menuBar = new MenuBar();
+        table = new Table();
+        setJMenuBar(menuBar);
+        add(table);
     }
+
     public void start() { this.setVisible(true); }
 
 
@@ -63,10 +36,14 @@ public class Window extends JFrame
         int posX = Integer.parseInt(GetValueConfigFile(configFile, "posX"));
         int posY = Integer.parseInt(GetValueConfigFile(configFile, "posY"));
 
-        setPreferredSize(new Dimension(width, height));
-        setLocation(new Point(posX, posY));
+        WINDOW_DIMENSION = new Dimension(width, height);
+        WINDOW_LOCATION = new Point(posX, posY);
+
+        setPreferredSize(WINDOW_DIMENSION);
+        setLocation(WINDOW_LOCATION);
         setTitle(title);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         pack();
     }
 

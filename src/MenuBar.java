@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 public class MenuBar extends JMenuBar
 {
     private JMenu file;
+    private JMenuItem open;
     private JMenuItem save;
     private JMenuItem exit;
 
@@ -15,6 +16,7 @@ public class MenuBar extends JMenuBar
     MenuBar()
     {
         file = new JMenu("file");
+        open = new JMenuItem("open");
         save = new JMenuItem("salva");
         exit = new JMenuItem("esci");
 
@@ -23,13 +25,14 @@ public class MenuBar extends JMenuBar
         help = new JMenu("aiuto");
 
         add(file);
+        file.add(open);
         file.add(save);
         file.add(exit);
-
 
         add(options);
         add(help);
 
+        addActionListenerComponent(open, MenuBar::openEvent);
         addActionListenerComponent(save, MenuBar::saveEvent);
         addActionListenerComponent(exit, MenuBar::exitEvent);
     }
@@ -45,13 +48,16 @@ public class MenuBar extends JMenuBar
         });
     }
 
+    private static void openEvent()
+    {
+        System.out.println("To do openEvent...");
+    }
     private static void saveEvent()
     {
-        System.out.println("Saving...");
+        System.out.println("To do saveEvent...");
     }
     private static void exitEvent()
     {
         System.exit(0);
     }
-
 }

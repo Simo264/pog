@@ -2,27 +2,42 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class CFileParser
 {
+    private final BuildModes buildModes = BuildModes.WITH_IDE;
+    private Path currentPath = Paths.get("").toAbsolutePath();
+    private String resDirectory;
+
     private File configFile;
-    private String filePath;
+    private String fileName;
 
     CFileParser(EnumComponents components)
     {
+        // home/simone/Desktop/pog/
+        if(buildModes == BuildModes.WITH_IDE)
+            resDirectory = currentPath.toString() + "/res/";
+
+        // home/simone/Desktop/pog/out
+        else if(buildModes == BuildModes.WITH_MAKEFILE)
+            resDirectory = currentPath.getParent().toString() + "/res/";
+
+
         if(components == EnumComponents.WINDOW)
-            filePath = System.getProperty("user.dir") + "/res/window.init.config";
+            fileName = "window.init.config";
 
         else if (components == EnumComponents.TABLE)
-            filePath = System.getProperty("user.dir") + "/res/table.init.config";
+            fileName = "table.init.config";
 
-        configFile = new File(filePath);
+        configFile = new File(resDirectory + fileName);
     }
 
     public LinkedHashMap<String, String> getProperties()
     {
-        LinkedHashMap<String, String> mappig = new LinkedHashMap<>();
+        LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
         try
         {
             Scanner scanner = new Scanner(configFile);
@@ -31,11 +46,11 @@ public class CFileParser
                 String line = scanner.nextLine();
                 String k = line.split("=")[0];
                 String v = line.split("=")[1];
-                mappig.put(k, v);
+                mapping.put(k, v);
             }
         }
         catch (FileNotFoundException e) { e.printStackTrace(); }
-        return mappig;
+        return mapping;
     }
     public void updateProperties(LinkedHashMap<String, String> props)
     {

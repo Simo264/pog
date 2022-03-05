@@ -28,12 +28,14 @@ public class TableComponent extends JPanel
         table.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
-                System.out.println("focusGained");
+                // TODO
+                // ...
             }
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                System.out.println("focusLost");
+                // TODO
+                // ...
             }
         });
     }

@@ -12,7 +12,7 @@ public class Window extends JFrame
 
     public Window()
     {
-        fileParser = new CFileParser(EnumComponents.WINDOW);
+        fileParser = new CFileParser(EnumFileTypes.WINDOW_INIT_CONFIG);
         properties = fileParser.getProperties();
         setWindowProperties();
 

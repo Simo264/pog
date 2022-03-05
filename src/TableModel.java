@@ -15,7 +15,7 @@ public class TableModel extends DefaultTableModel
     {
         super();
 
-        fileParser = new CFileParser(EnumComponents.TABLE);
+        fileParser = new CFileParser(EnumFileTypes.TABLE_INIT_CONFIG);
         properties = fileParser.getProperties();
 
         nRows = Integer.parseInt(properties.get("row"));
@@ -27,8 +27,6 @@ public class TableModel extends DefaultTableModel
 
         if(!isEmpty)
             fillRows();
-
-
     }
 
     @Override
@@ -45,12 +43,13 @@ public class TableModel extends DefaultTableModel
         for (int i = 0; i < nRows; i++)
         {
             addRow(new Vector<String>(nRows));
-            setValueAt(Integer.valueOf(i), i, 0);
+            setValueAt(Integer.valueOf(i+1), i, 0);
         }
     }
     private void fillRows()
     {
-
+        // TODO
+        // ...
     }
 
 }

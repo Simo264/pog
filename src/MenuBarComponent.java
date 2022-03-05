@@ -1,6 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedHashMap;
 
 public class MenuBarComponent extends JMenuBar
 {
@@ -60,6 +62,7 @@ public class MenuBarComponent extends JMenuBar
     {
         final TableComponent table = windowParent.getTableComponent();
         final TableModel tableModel = table.getTableModel();
+        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
 
         for (int i = 0; i < tableModel.getRowCount(); i++)
         {
@@ -67,9 +70,20 @@ public class MenuBarComponent extends JMenuBar
             {
                 final Object cellContent = tableModel.getValueAt(i,j);
                 if(cellContent != null)
-                    System.out.println("value[" + i + ", " + j + "] = " + cellContent.toString());
+                {
+                    Point point = new Point(j-1, i);
+                    Coordinate coordinate = new Coordinate(point);
+                    hashMap.put(coordinate.toString(), cellContent.toString());
+                }
             }
         }
+
+        if(!hashMap.isEmpty())
+        {
+            CFileParser fileParser = new CFileParser(EnumFileTypes.TABLE_CONTENT_CONFIG);
+            fileParser.updateProperties(hashMap);
+        }
+
     }
 
 

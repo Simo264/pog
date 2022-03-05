@@ -12,10 +12,10 @@ public class CFileParser
     private Path currentPath = Paths.get("").toAbsolutePath();
     private String resDirectory;
 
-    private File configFile;
+    private File inputFile;
     private String fileName;
 
-    CFileParser(EnumComponents components)
+    CFileParser(EnumFileTypes components)
     {
         // home/simone/Desktop/pog/
         if(buildModes == BuildModes.WITH_IDE)
@@ -26,13 +26,22 @@ public class CFileParser
             resDirectory = currentPath.getParent().toString() + "/res/";
 
 
-        if(components == EnumComponents.WINDOW)
-            fileName = "window.init.config";
+        switch (components)
+        {
+            case WINDOW_INIT_CONFIG:
+                fileName = "window.init.config";
+                break;
 
-        else if (components == EnumComponents.TABLE)
-            fileName = "table.init.config";
+            case TABLE_INIT_CONFIG:
+                fileName = "table.init.config";
+                break;
 
-        configFile = new File(resDirectory + fileName);
+            case TABLE_CONTENT_CONFIG:
+                fileName = "table.content.config";
+                break;
+        }
+
+        inputFile = new File(resDirectory + fileName);
     }
 
     public LinkedHashMap<String, String> getProperties()
@@ -40,7 +49,7 @@ public class CFileParser
         LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
         try
         {
-            Scanner scanner = new Scanner(configFile);
+            Scanner scanner = new Scanner(inputFile);
             while(scanner.hasNextLine())
             {
                 String line = scanner.nextLine();
@@ -60,7 +69,7 @@ public class CFileParser
 
         try
         {
-            FileWriter fileWriter  = new FileWriter(configFile);
+            FileWriter fileWriter  = new FileWriter(inputFile);
             fileWriter.write(inputBuffer.toString());
             fileWriter.close();
         }

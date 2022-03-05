@@ -1,5 +1,7 @@
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class TableComponent extends JPanel
 {
@@ -21,6 +23,21 @@ public class TableComponent extends JPanel
         table.setRowSelectionAllowed(false);
         add(table.getTableHeader(), BorderLayout.PAGE_START);
         add(scrollPane, BorderLayout.CENTER);
+
+
+        table.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent focusEvent) {
+                System.out.println("focusGained");
+            }
+
+            @Override
+            public void focusLost(FocusEvent focusEvent) {
+                System.out.println("focusLost");
+            }
+        });
     }
+
+    public TableModel getTableModel() { return tableModel; }
 }
 

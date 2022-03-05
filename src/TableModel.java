@@ -27,6 +27,8 @@ public class TableModel extends DefaultTableModel
 
         if(!isEmpty)
             fillRows();
+
+
     }
 
     @Override

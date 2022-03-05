@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedHashMap;
 
 public class MenuBarComponent extends JMenuBar
 {
@@ -55,10 +54,22 @@ public class MenuBarComponent extends JMenuBar
     private static void openEvent()
     {
 
+
     }
     private static void saveEvent()
     {
+        final TableComponent table = windowParent.getTableComponent();
+        final TableModel tableModel = table.getTableModel();
 
+        for (int i = 0; i < tableModel.getRowCount(); i++)
+        {
+            for (int j = 1; j < tableModel.getColumnCount(); j++)
+            {
+                final Object cellContent = tableModel.getValueAt(i,j);
+                if(cellContent != null)
+                    System.out.println("value[" + i + ", " + j + "] = " + cellContent.toString());
+            }
+        }
     }
 
 

@@ -23,6 +23,9 @@ public class Window extends JFrame
     }
 
     public void start() { this.setVisible(true); }
+    public MenuBarComponent getMenuBarComponent() { return menuBarComponent; }
+    public TableComponent getTableComponent() { return tableComponent; }
+
 
     private void setWindowProperties()
     {

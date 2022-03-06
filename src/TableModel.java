@@ -10,10 +10,19 @@ public class TableModel extends DefaultTableModel
     private int nRows;
     private int nCols;
 
+    private File defaultFile;
+
     TableModel()
     {
         super();
         initTableModel();
+
+        defaultFile = new DefaultConfigurationFiles(EnumFileTypes.TABLE_CONTENT_CONFIG).getFile();
+        if(defaultFile.exists())
+        {
+            CFileParser fileParser = new CFileParser(defaultFile);
+            fillTable(fileParser.getProperties());
+        }
     }
 
     private void initTableModel()
@@ -46,6 +55,25 @@ public class TableModel extends DefaultTableModel
 
     @Override
     public boolean isCellEditable(int row, int column) { return (column != 0); }
+
+    public final LinkedHashMap<String, String> getTableContent()
+    {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        for (int i = 0; i < nRows; i++)
+        {
+            for (int j = 1; j < nCols; j++)
+            {
+                final Object cellContent = getValueAt(i,j);
+                if(cellContent != null)
+                {
+                    Point point = new Point(j-1, i);
+                    Coordinate coordinate = new Coordinate(point);
+                    map.put(coordinate.toString(), cellContent.toString());
+                }
+            }
+        }
+        return map;
+    }
 
     public void fillTable(LinkedHashMap<String, String> hashMap)
     {

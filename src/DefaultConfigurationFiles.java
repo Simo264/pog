@@ -6,7 +6,7 @@ public class DefaultConfigurationFiles
 {
     private final BuildModes buildModes = BuildModes.WITH_IDE;
     private Path currentPath = Paths.get("").toAbsolutePath();
-    private String resDirectory;
+    private String configDirectory;
 
     private String fileName;
     private File configurationFile;
@@ -15,11 +15,11 @@ public class DefaultConfigurationFiles
     {
         // home/simone/Desktop/pog/
         if(buildModes == BuildModes.WITH_IDE)
-            resDirectory = currentPath.toString() + "/res/";
+            configDirectory = currentPath.toString() + "/configs/";
 
         // home/simone/Desktop/pog/out
         if(buildModes == BuildModes.WITH_MAKEFILE)
-            resDirectory = currentPath.getParent().toString() + "/res/";
+            configDirectory = currentPath.getParent().toString() + "/configs/";
 
 
         switch (fileType)
@@ -33,13 +33,12 @@ public class DefaultConfigurationFiles
                 break;
 
             case TABLE_CONTENT_CONFIG:
-                fileName = "table.content.config";
+                fileName = "configs/table.content.config";
                 break;
         }
 
-        configurationFile = new File(resDirectory + fileName);
+        configurationFile = new File(configDirectory + fileName);
     }
 
     public File getFile() { return configurationFile; }
-
 }

@@ -47,8 +47,6 @@ public class Window extends JFrame {
 
     public void start() { this.setVisible(true); }
     public MenuBarComponent getMenuBarComponent() { return menuBarComponent; }
-    public TablePanel getTableComponent() { return tablePanel; }
-
-
+    public TablePanel getTablePanel() { return tablePanel; }
 
 }

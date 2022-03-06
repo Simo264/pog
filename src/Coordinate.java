@@ -17,8 +17,7 @@ public class Coordinate
         rowID = point.y;
     }
 
-    public char getColID() { return colID; }
-    public int getrowID() { return rowID; }
+    @Override
     public String toString(){ return String.valueOf(colID) + String.valueOf(rowID); }
 
     // From Coordinate to Point

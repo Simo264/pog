@@ -1,7 +1,9 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.LinkedHashMap;
 
 public class MenuBarComponent extends JMenuBar
@@ -10,6 +12,7 @@ public class MenuBarComponent extends JMenuBar
 
     private JMenu file;
     private JMenuItem open;
+
     private JMenuItem save;
     private JMenuItem exit;
 
@@ -20,6 +23,16 @@ public class MenuBarComponent extends JMenuBar
     {
         windowParent = parent;
 
+        initMenu();
+
+        addActionListenerComponent(open, MenuBarComponent::openEvent);
+        addActionListenerComponent(save, MenuBarComponent::saveEvent);
+        addActionListenerComponent(exit, MenuBarComponent::exitEvent);
+        addActionListenerComponent(options, MenuBarComponent::optionsEvent);
+        addActionListenerComponent(help, MenuBarComponent::helpEvent);
+    }
+    private void initMenu()
+    {
         file = new JMenu("file");
         open = new JMenuItem("open");
         save = new JMenuItem("salva");
@@ -35,14 +48,7 @@ public class MenuBarComponent extends JMenuBar
 
         add(options);
         add(help);
-
-        addActionListenerComponent(open, MenuBarComponent::openEvent);
-        addActionListenerComponent(save, MenuBarComponent::saveEvent);
-        addActionListenerComponent(exit, MenuBarComponent::exitEvent);
-        addActionListenerComponent(options, MenuBarComponent::optionsEvent);
-        addActionListenerComponent(help, MenuBarComponent::helpEvent);
     }
-
     private void addActionListenerComponent(JMenuItem item, Runnable method)
     {
         item.addActionListener(new ActionListener() {
@@ -55,12 +61,22 @@ public class MenuBarComponent extends JMenuBar
 
     private static void openEvent()
     {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter(".config Files", "config"));
 
+        int returnVal = fileChooser.showSaveDialog(windowParent);
+        if (returnVal == JFileChooser.CANCEL_OPTION) return ;
 
+        File fileSelected = fileChooser.getSelectedFile();
+        CFileParser fileParser = new CFileParser(fileSelected);
+        LinkedHashMap<String, String> hashMap = fileParser.getProperties();
+
+        TableModel tableModel = windowParent.getTableComponent().getTableModel();
+        tableModel.fillTable(hashMap);
     }
     private static void saveEvent()
     {
-        final TableComponent table = windowParent.getTableComponent();
+        final TablePanel table = windowParent.getTableComponent();
         final TableModel tableModel = table.getTableModel();
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
 
@@ -78,14 +94,10 @@ public class MenuBarComponent extends JMenuBar
             }
         }
 
-        if(!hashMap.isEmpty())
-        {
-            CFileParser fileParser = new CFileParser(EnumFileTypes.TABLE_CONTENT_CONFIG);
-            fileParser.updateProperties(hashMap);
-        }
-
+        File configFile = new DefaultConfigurationFiles(EnumFileTypes.TABLE_CONTENT_CONFIG).getFile();
+        CFileParser fileParser = new CFileParser(configFile);
+        fileParser.updateProperties(hashMap);
     }
-
 
     private static void optionsEvent()
     {
@@ -99,4 +111,7 @@ public class MenuBarComponent extends JMenuBar
     {
         System.exit(0);
     }
+
+
+
 }

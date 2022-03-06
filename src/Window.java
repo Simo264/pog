@@ -1,31 +1,27 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.util.LinkedHashMap;
 
-public class Window extends JFrame
-{
+public class Window extends JFrame {
+    private File configFile;
     private CFileParser fileParser;
     private LinkedHashMap<String, String> properties;
 
     private MenuBarComponent menuBarComponent;
-    private TableComponent tableComponent;
+    private TablePanel tablePanel;
 
-    public Window()
-    {
-        fileParser = new CFileParser(EnumFileTypes.WINDOW_INIT_CONFIG);
+    public Window() {
+        configFile = new DefaultConfigurationFiles(EnumFileTypes.WINDOW_INIT_CONFIG).getFile();
+        fileParser = new CFileParser(configFile);
         properties = fileParser.getProperties();
         setWindowProperties();
 
         menuBarComponent = new MenuBarComponent(this);
-        tableComponent = new TableComponent(this);
+        tablePanel = new TablePanel(this);
         setJMenuBar(menuBarComponent);
-        add(tableComponent);
+        add(tablePanel);
     }
-
-    public void start() { this.setVisible(true); }
-    public MenuBarComponent getMenuBarComponent() { return menuBarComponent; }
-    public TableComponent getTableComponent() { return tableComponent; }
-
 
     private void setWindowProperties()
     {
@@ -48,4 +44,11 @@ public class Window extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
     }
+
+    public void start() { this.setVisible(true); }
+    public MenuBarComponent getMenuBarComponent() { return menuBarComponent; }
+    public TablePanel getTableComponent() { return tablePanel; }
+
+
+
 }

@@ -2,46 +2,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class CFileParser
 {
-    private final BuildModes buildModes = BuildModes.WITH_IDE;
-    private Path currentPath = Paths.get("").toAbsolutePath();
-    private String resDirectory;
+    private File file;
 
-    private File inputFile;
-    private String fileName;
-
-    CFileParser(EnumFileTypes components)
+    CFileParser(File inputFile)
     {
-        // home/simone/Desktop/pog/
-        if(buildModes == BuildModes.WITH_IDE)
-            resDirectory = currentPath.toString() + "/res/";
-
-        // home/simone/Desktop/pog/out
-        else if(buildModes == BuildModes.WITH_MAKEFILE)
-            resDirectory = currentPath.getParent().toString() + "/res/";
-
-
-        switch (components)
-        {
-            case WINDOW_INIT_CONFIG:
-                fileName = "window.init.config";
-                break;
-
-            case TABLE_INIT_CONFIG:
-                fileName = "table.init.config";
-                break;
-
-            case TABLE_CONTENT_CONFIG:
-                fileName = "table.content.config";
-                break;
-        }
-
-        inputFile = new File(resDirectory + fileName);
+        file = inputFile;
     }
 
     public LinkedHashMap<String, String> getProperties()
@@ -49,7 +18,7 @@ public class CFileParser
         LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
         try
         {
-            Scanner scanner = new Scanner(inputFile);
+            Scanner scanner = new Scanner(file);
             while(scanner.hasNextLine())
             {
                 String line = scanner.nextLine();
@@ -69,7 +38,7 @@ public class CFileParser
 
         try
         {
-            FileWriter fileWriter  = new FileWriter(inputFile);
+            FileWriter fileWriter  = new FileWriter(file);
             fileWriter.write(inputBuffer.toString());
             fileWriter.close();
         }

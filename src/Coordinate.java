@@ -5,6 +5,12 @@ public class Coordinate
     private char colID;
     private int rowID;
 
+    Coordinate(String coordinate)
+    {
+        colID = coordinate.charAt(0);
+        rowID = Integer.parseInt(coordinate.substring(1));
+    }
+
     Coordinate(Point point)
     {
         colID = (char) (point.x + 'A');

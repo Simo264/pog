@@ -1,9 +1,8 @@
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class TableComponent extends JPanel
+public class TablePanel extends JPanel
 {
     private Window windowParent;
 
@@ -11,18 +10,10 @@ public class TableComponent extends JPanel
     private JTable table;
     private JScrollPane scrollPane;
 
-    TableComponent(Window parent)
+    TablePanel(Window parent)
     {
         windowParent = parent;
-        setLayout(new BorderLayout());
-
-        tableModel = new TableModel();
-        table = new JTable(tableModel);
-        scrollPane = new JScrollPane(table);
-        table.setColumnSelectionAllowed(false);
-        table.setRowSelectionAllowed(false);
-        add(table.getTableHeader(), BorderLayout.PAGE_START);
-        add(scrollPane, BorderLayout.CENTER);
+        initTable();
 
 
         table.addFocusListener(new FocusAdapter() {
@@ -38,6 +29,19 @@ public class TableComponent extends JPanel
                 // ...
             }
         });
+    }
+
+    private void initTable()
+    {
+        setLayout(new BorderLayout());
+
+        tableModel = new TableModel();
+        table = new JTable(tableModel);
+        scrollPane = new JScrollPane(table);
+        table.setColumnSelectionAllowed(false);
+        table.setRowSelectionAllowed(false);
+        add(table.getTableHeader(), BorderLayout.PAGE_START);
+        add(scrollPane, BorderLayout.CENTER);
     }
 
     public TableModel getTableModel() { return tableModel; }

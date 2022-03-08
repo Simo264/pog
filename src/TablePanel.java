@@ -16,12 +16,12 @@ public class TablePanel extends JPanel
         initTable();
 
 
+
         table.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent focusEvent) {
                 // TODO
                 // ...
-
             }
 
             @Override
@@ -30,6 +30,7 @@ public class TablePanel extends JPanel
                 // ...
             }
         });
+
     }
 
     private void initTable()

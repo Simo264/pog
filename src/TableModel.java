@@ -26,13 +26,6 @@ public class TableModel extends DefaultTableModel
             fillTable(fileParser.getProperties());
         }
 
-        addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent e) {
-
-                System.out.println("tableChanged: " + e.getSource());
-            }
-        });
     }
 
     private void initTableModel()

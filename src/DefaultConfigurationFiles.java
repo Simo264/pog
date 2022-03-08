@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 
 public class DefaultConfigurationFiles
 {
-    private final BuildModes buildModes = BuildModes.WITH_IDE;
+    private final EnumBuildModes enumBuildModes = EnumBuildModes.WITH_IDE;
     private Path currentPath = Paths.get("").toAbsolutePath();
     private String configDirectory;
 
@@ -14,12 +14,12 @@ public class DefaultConfigurationFiles
     DefaultConfigurationFiles(EnumFileTypes fileType)
     {
         // home/simone/Desktop/pog/
-        if(buildModes == BuildModes.WITH_IDE)
+        if(enumBuildModes == EnumBuildModes.WITH_IDE)
             configDirectory = currentPath.toString() + "/configs/";
 
-        // home/simone/Desktop/pog/out
-        if(buildModes == BuildModes.WITH_MAKEFILE)
-            configDirectory = currentPath.getParent().toString() + "/configs/";
+        // home/simone/Desktop/pog/out/production/pog/
+        if(enumBuildModes == EnumBuildModes.WITH_MAKEFILE)
+            configDirectory = currentPath.getParent().getParent().getParent().toString() + "/configs/";
 
 
         switch (fileType)

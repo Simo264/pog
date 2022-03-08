@@ -1,4 +1,4 @@
-public enum BuildModes
+public enum EnumBuildModes
 {
     WITH_IDE,
     WITH_MAKEFILE

@@ -21,6 +21,7 @@ public class TablePanel extends JPanel
             public void focusGained(FocusEvent focusEvent) {
                 // TODO
                 // ...
+
             }
 
             @Override

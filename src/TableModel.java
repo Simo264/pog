@@ -1,3 +1,5 @@
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.File;
@@ -23,6 +25,14 @@ public class TableModel extends DefaultTableModel
             CFileParser fileParser = new CFileParser(defaultFile);
             fillTable(fileParser.getProperties());
         }
+
+        addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent e) {
+
+                System.out.println("tableChanged: " + e.getSource());
+            }
+        });
     }
 
     private void initTableModel()

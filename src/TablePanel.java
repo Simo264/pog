@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class TablePanel extends JPanel
 {
@@ -13,28 +12,7 @@ public class TablePanel extends JPanel
     TablePanel(Window parent)
     {
         windowParent = parent;
-        initTable();
 
-
-
-        table.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
-                // TODO
-                // ...
-            }
-
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                // TODO
-                // ...
-            }
-        });
-
-    }
-
-    private void initTable()
-    {
         setLayout(new BorderLayout());
 
         tableModel = new TableModel();

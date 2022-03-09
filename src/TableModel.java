@@ -1,3 +1,4 @@
+import javax.sound.midi.SysexMessage;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +26,15 @@ public class TableModel extends DefaultTableModel
             CFileParser fileParser = new CFileParser(defaultFile);
             fillTable(fileParser.getProperties());
         }
+
+
+        addTableModelListener(new TableModelListener() {
+            @Override
+            public void tableChanged(TableModelEvent tableModelEvent) {
+                updateTable();
+            }
+        });
+
 
     }
 
@@ -54,6 +64,23 @@ public class TableModel extends DefaultTableModel
             setValueAt(Integer.valueOf(i+1), i, 0);
         }
     }
+    private void updateTable()
+    {
+        for (int i = 0; i < nRows; i++)
+        {
+            for (int j = 1; j < nCols; j++)
+            {
+                final Object cellContent = getValueAt(i,j);
+                if(cellContent != null)
+                {
+                    Point point = new Point(j-1, i);
+                    Coordinate coordinate = new Coordinate(point);
+                    System.out.println(coordinate.toString());
+                }
+            }
+        }
+    }
+
 
 
     @Override
@@ -77,7 +104,6 @@ public class TableModel extends DefaultTableModel
         }
         return map;
     }
-
     public void fillTable(LinkedHashMap<String, String> hashMap)
     {
         for (Map.Entry<String, String> map :hashMap.entrySet())

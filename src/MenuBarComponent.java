@@ -1,10 +1,8 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
@@ -72,7 +70,7 @@ public class MenuBarComponent extends JMenuBar
 
         // Open configuration
         File fileSelected = fileChooser.getSelectedFile();
-        CFileParser fileParser = new CFileParser(fileSelected);
+        FileParser fileParser = new FileParser(fileSelected);
         LinkedHashMap<String, String> hashMap = fileParser.getProperties();
         TableModel tableModel = windowParent.getTablePanel().getTableModel();
         tableModel.fillTable(hashMap);
@@ -103,7 +101,7 @@ public class MenuBarComponent extends JMenuBar
         // Save configuration
         final TableModel tableModel = windowParent.getTablePanel().getTableModel();
         LinkedHashMap<String, String> hashMap = tableModel.getTableContent();
-        CFileParser fileParser = new CFileParser(file);
+        FileParser fileParser = new FileParser(file);
         fileParser.updateProperties(hashMap);
         // ------------------------
     }

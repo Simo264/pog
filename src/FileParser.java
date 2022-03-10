@@ -4,11 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
-public class CFileParser
+public class FileParser
 {
     private File file;
 
-    CFileParser(File inputFile)
+    FileParser(File inputFile)
     {
         file = inputFile;
     }

@@ -4,21 +4,21 @@ import java.nio.file.Paths;
 
 public class DefaultConfigurationFiles
 {
-    private final EnumBuildModes enumBuildModes = EnumBuildModes.WITH_IDE;
+    private final EBuildModes eBuildModes = EBuildModes.WITH_IDE;
     private Path currentPath = Paths.get("").toAbsolutePath();
     private String configDirectory;
 
     private String fileName;
     private File configurationFile;
 
-    DefaultConfigurationFiles(EnumFileTypes fileType)
+    DefaultConfigurationFiles(EFileTypes fileType)
     {
         // home/simone/Desktop/pog/
-        if(enumBuildModes == EnumBuildModes.WITH_IDE)
+        if(eBuildModes == EBuildModes.WITH_IDE)
             configDirectory = currentPath.toString() + "/configs/";
 
         // home/simone/Desktop/pog/out/production/pog/
-        if(enumBuildModes == EnumBuildModes.WITH_MAKEFILE)
+        if(eBuildModes == EBuildModes.WITH_MAKEFILE)
             configDirectory = currentPath.getParent().getParent().getParent().toString() + "/configs/";
 
 

@@ -1,4 +1,3 @@
-import javax.sound.midi.SysexMessage;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -20,10 +19,10 @@ public class TableModel extends DefaultTableModel
         super();
         initTableModel();
 
-        defaultFile = new DefaultConfigurationFiles(EnumFileTypes.TABLE_CONTENT_CONFIG).getFile();
+        defaultFile = new DefaultConfigurationFiles(EFileTypes.TABLE_CONTENT_CONFIG).getFile();
         if(defaultFile.exists())
         {
-            CFileParser fileParser = new CFileParser(defaultFile);
+            FileParser fileParser = new FileParser(defaultFile);
             fillTable(fileParser.getProperties());
         }
 
@@ -31,17 +30,15 @@ public class TableModel extends DefaultTableModel
         addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent tableModelEvent) {
-                updateTable();
+                onUpdate();
             }
         });
-
-
     }
 
     private void initTableModel()
     {
-        File configFile = new DefaultConfigurationFiles(EnumFileTypes.TABLE_INIT_CONFIG).getFile();
-        CFileParser fileParser = new CFileParser(configFile);
+        File configFile = new DefaultConfigurationFiles(EFileTypes.TABLE_INIT_CONFIG).getFile();
+        FileParser fileParser = new FileParser(configFile);
         LinkedHashMap<String, String> properties = fileParser.getProperties();
 
         nRows = Integer.parseInt(properties.get("row"));
@@ -64,18 +61,32 @@ public class TableModel extends DefaultTableModel
             setValueAt(Integer.valueOf(i+1), i, 0);
         }
     }
-    private void updateTable()
+    private void onUpdate()
     {
         for (int i = 0; i < nRows; i++)
         {
             for (int j = 1; j < nCols; j++)
             {
-                final Object cellContent = getValueAt(i,j);
-                if(cellContent != null)
+                final SimpleTableCell simpleCell = new SimpleTableCell(getValueAt(i,j));
+                if(simpleCell.isValid())
                 {
-                    Point point = new Point(j-1, i);
-                    Coordinate coordinate = new Coordinate(point);
-                    System.out.println(coordinate.toString());
+                    switch (simpleCell.classifyValue())
+                    {
+                        case TEXT:
+                        {
+                            break;
+                        }
+                        case FORMULA:
+                        {
+                            break;
+                        }
+                        case NUMERIC:
+                        {
+                            NumericCell numericCell = new NumericCell(simpleCell.getRawObject());
+
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -93,12 +104,12 @@ public class TableModel extends DefaultTableModel
         {
             for (int j = 1; j < nCols; j++)
             {
-                final Object cellContent = getValueAt(i,j);
-                if(cellContent != null)
+                final SimpleTableCell cell = new SimpleTableCell(getValueAt(i,j));
+                if(cell.isValid())
                 {
                     Point point = new Point(j-1, i);
                     Coordinate coordinate = new Coordinate(point);
-                    map.put(coordinate.toString(), cellContent.toString());
+                    map.put(coordinate.toString(), cell.getRawValue());
                 }
             }
         }

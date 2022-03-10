@@ -18,7 +18,7 @@ public class Coordinate
     }
 
     @Override
-    public String toString(){ return String.valueOf(colID) + String.valueOf(rowID); }
+    public String toString(){ return String.valueOf(colID) + String.valueOf(rowID + 1); }
 
     // From Coordinate to Point
     public Point reverse()

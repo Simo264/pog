@@ -67,26 +67,26 @@ public class TableModel extends DefaultTableModel
         {
             for (int j = 1; j < nCols; j++)
             {
-                final SimpleTableCell simpleCell = new SimpleTableCell(getValueAt(i,j));
-                if(simpleCell.isValid())
+                final Coordinate coordinate = new Coordinate(new Point(j-1,i));
+                final TextCell textCell = new TextCell(getValueAt(i,j));
+                if(textCell.isValid())
                 {
-                    switch (simpleCell.classifyValue())
+                    if(textCell.isNumeric())
                     {
-                        case TEXT:
-                        {
-                            break;
-                        }
-                        case FORMULA:
-                        {
-                            break;
-                        }
-                        case NUMERIC:
-                        {
-                            NumericCell numericCell = new NumericCell(simpleCell.getRawObject());
+                        System.out.println(coordinate + " = Numeric");
 
-                            break;
-                        }
+                        continue;
                     }
+                    if(textCell.getRawString().charAt(0) == '=')
+                    {
+                        Formula formulaCell = new Formula(textCell.getRawString());
+
+                        System.out.println(coordinate + " = Formula");
+
+                        continue;
+                    }
+
+                    System.out.println(coordinate + " = Text");
                 }
             }
         }
@@ -104,12 +104,12 @@ public class TableModel extends DefaultTableModel
         {
             for (int j = 1; j < nCols; j++)
             {
-                final SimpleTableCell cell = new SimpleTableCell(getValueAt(i,j));
-                if(cell.isValid())
+                final Object objectValue = getValueAt(i,j);
+                if(objectValue != null)
                 {
                     Point point = new Point(j-1, i);
                     Coordinate coordinate = new Coordinate(point);
-                    map.put(coordinate.toString(), cell.getRawValue());
+                    map.put(coordinate.toString(), objectValue.toString());
                 }
             }
         }

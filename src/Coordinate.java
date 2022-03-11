@@ -2,12 +2,13 @@ import java.awt.*;
 
 public class Coordinate
 {
-    private char colID;
-    private int rowID;
+    private Character colID;
+    private Integer rowID;
 
     Coordinate(String coordinate)
     {
         colID = coordinate.charAt(0);
+        colID = Character.toUpperCase(colID);
         rowID = Integer.parseInt(coordinate.substring(1));
     }
 
@@ -18,12 +19,12 @@ public class Coordinate
     }
 
     @Override
-    public String toString(){ return String.valueOf(colID) + String.valueOf(rowID + 1); }
+    public String toString(){ return String.valueOf(colID) + String.valueOf(rowID); }
 
-    // From Coordinate to Point
     public Point reverse()
     {
-        int x = (int) (colID - 'A');
-        return new Point(x, rowID);
+        int col = (int) (colID - 'A');
+        int row = rowID - 1;
+        return new Point(col, row);
     }
 }

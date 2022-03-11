@@ -67,26 +67,15 @@ public class TableModel extends DefaultTableModel
         {
             for (int j = 1; j < nCols; j++)
             {
-                final Coordinate coordinate = new Coordinate(new Point(j-1,i));
                 final TextCell textCell = new TextCell(getValueAt(i,j));
                 if(textCell.isValid())
                 {
-                    if(textCell.isNumeric())
-                    {
-                        System.out.println(coordinate + " = Numeric");
-
-                        continue;
-                    }
                     if(textCell.getRawString().charAt(0) == '=')
                     {
-                        Formula formulaCell = new Formula(textCell.getRawString());
-
-                        System.out.println(coordinate + " = Formula");
-
-                        continue;
+                        Formula formula = new Formula(textCell.getRawString());
+                        String result = formula.resolve(this);
+                        setValueAt(result, i, j);
                     }
-
-                    System.out.println(coordinate + " = Text");
                 }
             }
         }

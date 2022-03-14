@@ -1,11 +1,12 @@
 import java.awt.*;
+import java.security.InvalidParameterException;
 
 public class Coordinate
 {
     private Character colID;
     private Integer rowID;
 
-    Coordinate(String coordinate)
+    Coordinate(String coordinate) throws InvalidParameterException
     {
         colID = coordinate.charAt(0);
         colID = Character.toUpperCase(colID);
@@ -24,7 +25,7 @@ public class Coordinate
     public Point reverse()
     {
         int col = (int) (colID - 'A');
-        int row = rowID - 1;
+        int row = rowID ;
         return new Point(col, row);
     }
 }

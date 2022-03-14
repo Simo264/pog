@@ -26,7 +26,6 @@ public class TableModel extends DefaultTableModel
             fillTable(fileParser.getProperties());
         }
 
-
         addTableModelListener(new TableModelListener() {
             @Override
             public void tableChanged(TableModelEvent tableModelEvent) {
@@ -58,7 +57,7 @@ public class TableModel extends DefaultTableModel
         for (int i = 0; i < nRows; i++)
         {
             addRow(new Vector<String>(nRows));
-            setValueAt(Integer.valueOf(i+1), i, 0);
+            setValueAt(Integer.valueOf(i), i, 0);
         }
     }
     private void onUpdate()

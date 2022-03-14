@@ -33,7 +33,7 @@ public class DefaultConfigurationFiles
                 break;
 
             case TABLE_CONTENT_CONFIG:
-                fileName = "configs/table.content.config";
+                fileName = "table.content.config";
                 break;
         }
 

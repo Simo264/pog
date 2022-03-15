@@ -23,7 +23,11 @@ public class Workspace
     public void setCurrentWorkspace(File file) { currentws = file; }
     public void saveState(LinkedHashMap<String, String> content)
     {
-        if(currentws == null) return;
+        if(currentws == null)
+        {
+            System.out.println("[Error in Workspace.saveState] file is null!");
+            return;
+        }
 
         FileParser fileParser = new FileParser(currentws);
         fileParser.updateProperties(content);

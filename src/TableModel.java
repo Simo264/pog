@@ -33,7 +33,7 @@ public class TableModel extends DefaultTableModel
         if(file != null)
         {
             FileParser fileParser = new FileParser(file);
-            fillTable(fileParser.getProperties());
+            load(fileParser.getProperties());
         }
 
         addTableModelListener(new TableModelListener() {
@@ -41,7 +41,7 @@ public class TableModel extends DefaultTableModel
             public void tableChanged(TableModelEvent tableModelEvent) {
                 onUpdate();
 
-                if(autosave)
+                if(autosave && workspace.getCurrentWorkspace() != null)
                     workspace.saveState(getTableContent());
             }
         });
@@ -127,7 +127,7 @@ public class TableModel extends DefaultTableModel
         }
         return map;
     }
-    public void fillTable(LinkedHashMap<String, String> hashMap)
+    public void load(LinkedHashMap<String, String> hashMap)
     {
         for (Map.Entry<String, String> map :hashMap.entrySet())
         {
@@ -137,5 +137,11 @@ public class TableModel extends DefaultTableModel
             Point point = coordinate.reverse();
             setValueAt(value, point.y, point.x+1);
         }
+    }
+    public void emptyTable()
+    {
+        for (int i = 0; i < nRows; i++)
+            for (int j = 1; j < nCols; j++)
+                setValueAt(null, i, j);
     }
 }

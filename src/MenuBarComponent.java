@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 public class MenuBarComponent extends JMenuBar
 {
     private static Window windowParent;
+    private static Workspace workspace;
 
     private JMenu menuFile;
     private JMenuItem menuNewFile;
@@ -20,6 +21,7 @@ public class MenuBarComponent extends JMenuBar
     MenuBarComponent(Window parent)
     {
         windowParent = parent;
+        workspace = windowParent.getWorkspace();
 
         initMenu();
 
@@ -69,11 +71,13 @@ public class MenuBarComponent extends JMenuBar
         // ------------------------
 
         // Open configuration
+        workspace.setCurrentWorkspace(fileChooser.getSelectedFile());
         File fileSelected = fileChooser.getSelectedFile();
         FileParser fileParser = new FileParser(fileSelected);
         LinkedHashMap<String, String> hashMap = fileParser.getProperties();
         TableModel tableModel = windowParent.getTablePanel().getTableModel();
-        tableModel.fillTable(hashMap);
+        tableModel.emptyTable();
+        tableModel.load(hashMap);
         // ------------------------
     }
     private static void saveEvent()
@@ -99,6 +103,7 @@ public class MenuBarComponent extends JMenuBar
         // ------------------------
 
         // Save configuration
+        workspace.setCurrentWorkspace(file);
         final TableModel tableModel = windowParent.getTablePanel().getTableModel();
         LinkedHashMap<String, String> hashMap = tableModel.getTableContent();
         FileParser fileParser = new FileParser(file);
@@ -107,7 +112,8 @@ public class MenuBarComponent extends JMenuBar
     }
     private static void newFileEvent()
     {
-        System.out.println("To do optionsEvent...");
+        workspace.setCurrentWorkspace(null);
+        windowParent.getTablePanel().getTableModel().emptyTable();
     }
     private static void helpEvent()
     {

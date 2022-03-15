@@ -1,30 +1,41 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 
 public class Window extends JFrame
 {
-    private File configFile;
-    private FileParser fileParser;
-    private LinkedHashMap<String, String> properties;
+    private Workspace workspace;
 
+    private LinkedHashMap<String, String> properties;
     private MenuBarComponent menuBarComponent;
     private TablePanel tablePanel;
 
     public Window()
     {
-        configFile = new DefaultConfigurationFiles(EFileTypes.WINDOW_INIT_CONFIG).getFile();
-        fileParser = new FileParser(configFile);
-        properties = fileParser.getProperties();
-        setWindowProperties();
+        workspace = new Workspace();
 
-        menuBarComponent = new MenuBarComponent(this);
-        tablePanel = new TablePanel(this);
-        setJMenuBar(menuBarComponent);
-        add(tablePanel);
+        initProperties();
+        setWindowProperties();
+        addWindowComponent();
     }
 
+    private void initProperties()
+    {
+        try
+        {
+            ConfigurationFileWindow configurationFileWindow = new ConfigurationFileWindow();
+            File file = configurationFileWindow.getConfigurationFile();
+            FileParser fileParser = new FileParser(file);
+            properties = fileParser.getProperties();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.fillInStackTrace();
+            System.exit(-1);
+        }
+    }
     private void setWindowProperties()
     {
         String title = properties.get( "title");
@@ -46,9 +57,16 @@ public class Window extends JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
     }
+    private void addWindowComponent()
+    {
+        menuBarComponent = new MenuBarComponent(this);
+        tablePanel = new TablePanel(this);
+        setJMenuBar(menuBarComponent);
+        add(tablePanel);
+    }
 
     public void start() { this.setVisible(true); }
     public MenuBarComponent getMenuBarComponent() { return menuBarComponent; }
     public TablePanel getTablePanel() { return tablePanel; }
-
+    public Workspace getWorkspace() { return workspace; }
 }

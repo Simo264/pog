@@ -11,10 +11,10 @@ public class MenuBarComponent extends JMenuBar
     private static Window windowParent;
 
     private JMenu menuFile;
+    private JMenuItem menuNewFile;
     private JMenuItem menuOpen;
     private JMenuItem menuSave;
     private JMenuItem menuExit;
-    private JMenu menuOptions;
     private JMenu menuHelp;
 
     MenuBarComponent(Window parent)
@@ -23,28 +23,28 @@ public class MenuBarComponent extends JMenuBar
 
         initMenu();
 
+        addActionListenerComponent(menuNewFile, MenuBarComponent::newFileEvent);
         addActionListenerComponent(menuOpen, MenuBarComponent::openEvent);
         addActionListenerComponent(menuSave, MenuBarComponent::saveEvent);
         addActionListenerComponent(menuExit, MenuBarComponent::exitEvent);
-        addActionListenerComponent(menuOptions, MenuBarComponent::optionsEvent);
         addActionListenerComponent(menuHelp, MenuBarComponent::helpEvent);
     }
     private void initMenu()
     {
         menuFile = new JMenu("file");
+        menuNewFile = new JMenuItem("new file");
         menuOpen = new JMenuItem("open");
-        menuSave = new JMenuItem("salva");
-        menuExit = new JMenuItem("esci");
+        menuSave = new JMenuItem("save");
+        menuExit = new JMenuItem("exit");
 
-        menuOptions = new JMenu("opzioni");
         menuHelp = new JMenu("aiuto");
 
         add(menuFile);
+        menuFile.add(menuNewFile);
         menuFile.add(menuOpen);
         menuFile.add(menuSave);
         menuFile.add(menuExit);
 
-        add(menuOptions);
         add(menuHelp);
     }
     private void addActionListenerComponent(JMenuItem item, Runnable method)
@@ -105,7 +105,7 @@ public class MenuBarComponent extends JMenuBar
         fileParser.updateProperties(hashMap);
         // ------------------------
     }
-    private static void optionsEvent()
+    private static void newFileEvent()
     {
         System.out.println("To do optionsEvent...");
     }

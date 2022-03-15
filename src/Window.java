@@ -32,7 +32,7 @@ public class Window extends JFrame
         }
         catch (FileNotFoundException e)
         {
-            e.fillInStackTrace();
+            e.printStackTrace(System.err);
             System.exit(-1);
         }
     }

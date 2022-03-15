@@ -1,6 +1,0 @@
-public enum EFileTypes
-{
-    WINDOW_INIT_CONFIG,
-    TABLE_INIT_CONFIG,
-    TABLE_CONTENT_CONFIG
-}

@@ -3,16 +3,14 @@ import java.io.FileNotFoundException;
 
 public class ConfigurationFileTableContent extends ConfigurationFile
 {
-    private File file = null;
-
     ConfigurationFileTableContent() { super(); }
 
     @Override
     public File getConfigurationFile() throws FileNotFoundException
     {
-        file = new File(CONFIGS_DIRECTORY + "table.content.config");
+        File file = new File(CONFIGS_DIRECTORY + "table.content.config");
         if(!file.exists())
-            throw new FileNotFoundException();
+            throw new FileNotFoundException(file.toString() + " does not exist!");
 
         return file;
     }

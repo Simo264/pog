@@ -10,26 +10,31 @@ import java.util.Vector;
 
 public class TableModel extends DefaultTableModel
 {
+    private Window windowParent;
+    private Workspace workspace;
+
     private LinkedHashMap<String, String> properties;
 
     private int nRows;
     private int nCols;
     private boolean autosave;
 
-    TableModel()
+    TableModel(Window parent)
     {
         super();
+
         initProperties();
         setTableProperties();
 
-        /*
-        defaultFile = new DefaultConfigurationFiles(EFileTypes.TABLE_CONTENT_CONFIG).getFile();
-        if(defaultFile.exists())
+        windowParent = parent;
+        workspace = windowParent.getWorkspace();
+
+        File file = workspace.getCurrentWorkspace();
+        if(file != null)
         {
-            FileParser fileParser = new FileParser(defaultFile);
+            FileParser fileParser = new FileParser(file);
             fillTable(fileParser.getProperties());
         }
-        */
 
         addTableModelListener(new TableModelListener() {
             @Override
@@ -37,7 +42,7 @@ public class TableModel extends DefaultTableModel
                 onUpdate();
 
                 if(autosave)
-                    saveState();
+                    workspace.saveState(getTableContent());
             }
         });
     }
@@ -53,7 +58,7 @@ public class TableModel extends DefaultTableModel
         }
         catch (FileNotFoundException e)
         {
-            e.fillInStackTrace();
+            e.printStackTrace(System.err);
             System.exit(-1);
         }
     }
@@ -99,11 +104,6 @@ public class TableModel extends DefaultTableModel
             }
         }
     }
-    private void saveState()
-    {
-
-    }
-
 
 
     @Override

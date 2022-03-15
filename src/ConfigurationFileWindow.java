@@ -3,16 +3,14 @@ import java.io.FileNotFoundException;
 
 public class ConfigurationFileWindow extends ConfigurationFile
 {
-    private File file = null;
-
     ConfigurationFileWindow() { super(); }
 
     @Override
     public File getConfigurationFile() throws FileNotFoundException
     {
-        file = new File(CONFIGS_DIRECTORY + "window.init.config");
+        File file = new File(CONFIGS_DIRECTORY + "window.init.config");
         if(!file.exists())
-            throw new FileNotFoundException();
+            throw new FileNotFoundException(file.toString() + " does not exist!");
 
         return file;
     }

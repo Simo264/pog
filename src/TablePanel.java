@@ -12,10 +12,13 @@ public class TablePanel extends JPanel
     TablePanel(Window parent)
     {
         windowParent = parent;
-
+        initPanel();
+    }
+    private void initPanel()
+    {
         setLayout(new BorderLayout());
 
-        tableModel = new TableModel();
+        tableModel = new TableModel(windowParent);
         table = new JTable(tableModel);
         scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -26,6 +29,7 @@ public class TablePanel extends JPanel
         add(table.getTableHeader(), BorderLayout.PAGE_START);
         add(scrollPane, BorderLayout.CENTER);
     }
+
 
     public TableModel getTableModel() { return tableModel; }
 }

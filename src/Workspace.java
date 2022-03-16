@@ -2,6 +2,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 
+/**
+ * La classe Workspace rappresenta il file di lavoro in cui si sta operando.
+ * All'avvio del programma il workspace di default sarà il file "table.content.config" in configs/ se esiste,
+ * altrimenti null.
+ *
+ * Durante l'esecuzione del programma l'utente potrà decidere se aprire un nuovo file di configurazione,
+ * il workspace sarà il nuovo file di configurazione aperto.
+ */
 public class Workspace
 {
     private File currentws;
@@ -19,8 +27,22 @@ public class Workspace
         }
     }
 
+    /**
+     * Ritorna il workspace corrente
+     * @return currentws
+     */
     public File getCurrentWorkspace() { return currentws; }
+
+    /**
+     * Imposta il workspace con un nuovo file
+     * @param file
+     */
     public void setCurrentWorkspace(File file) { currentws = file; }
+
+    /**
+     * Salva lo stato dell'attuale workspace
+     * @param content
+     */
     public void saveState(LinkedHashMap<String, String> content)
     {
         if(currentws == null)

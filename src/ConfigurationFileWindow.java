@@ -1,10 +1,19 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 
+/**
+ * ConfigurationFileWindow estende la classe astratta ConfigurationFile,
+ * rappresenta il file di configurazione del frame JFrame
+ *
+ */
 public class ConfigurationFileWindow extends ConfigurationFile
 {
     ConfigurationFileWindow() { super(); }
 
+    /**
+     * @return il file di configurazione "window.init.config"
+     * @throws FileNotFoundException
+     */
     @Override
     public File getConfigurationFile() throws FileNotFoundException
     {

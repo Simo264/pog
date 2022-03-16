@@ -1,9 +1,6 @@
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -17,7 +14,7 @@ public class TableModel extends DefaultTableModel
     private Window windowParent;
     private Workspace workspace;
 
-    private LinkedHashMap<String, String> properties;
+    private LinkedHashMap<String, String> windowProperties;
 
     private int nRows;
     private int nCols;
@@ -27,53 +24,38 @@ public class TableModel extends DefaultTableModel
     {
         super();
 
-        loadProperties();
-        setTableProperties();
-
         windowParent = parent;
+        windowProperties = windowParent.getWindowProperties();
         workspace = windowParent.getWorkspace();
 
+        setTableProperties();
+        loadWorkspace();
+
+        addTableModelListener(tableModelEvent -> {
+            onUpdate();
+
+            if(autosave && workspace.getCurrentWorkspace() != null)
+                workspace.saveState(getTableContent());
+        });
+    }
+
+    private void setTableProperties()
+    {
+        nRows = Integer.parseInt(windowProperties.get("rows"));
+        nCols = Integer.parseInt(windowProperties.get("cols"));
+        autosave = Boolean.parseBoolean(windowProperties.get("autosave"));
+
+        addColumns();
+        addRows();
+    }
+    private void loadWorkspace()
+    {
         File file = workspace.getCurrentWorkspace();
         if(file != null)
         {
             FileParser fileParser = new FileParser(file);
             load(fileParser.getProperties());
         }
-
-        addTableModelListener(new TableModelListener() {
-            @Override
-            public void tableChanged(TableModelEvent tableModelEvent) {
-                onUpdate();
-
-                if(autosave && workspace.getCurrentWorkspace() != null)
-                    workspace.saveState(getTableContent());
-            }
-        });
-    }
-
-    private void loadProperties()
-    {
-        try
-        {
-            ConfigurationFileTable configurationFileTable = new ConfigurationFileTable();
-            File file = configurationFileTable.getConfigurationFile();
-            FileParser fileParser = new FileParser(file);
-            properties = fileParser.getProperties();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace(System.err);
-            System.exit(-1);
-        }
-    }
-    private void setTableProperties()
-    {
-        nRows = Integer.parseInt(properties.get("row"));
-        nCols = Integer.parseInt(properties.get("col"));
-        autosave = Boolean.parseBoolean(properties.get("autosave"));
-
-        addColumns();
-        addRows();
     }
     private void addColumns()
     {
@@ -86,7 +68,7 @@ public class TableModel extends DefaultTableModel
         for (int i = 0; i < nRows; i++)
         {
             addRow(new Vector<String>(nRows));
-            setValueAt(Integer.valueOf(i), i, 0);
+            setValueAt(i, i, 0);
         }
     }
     private void onUpdate()

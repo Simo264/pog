@@ -34,7 +34,7 @@ public class FileParser
                 mapping.put(k, v);
             }
         }
-        catch (FileNotFoundException e) { e.printStackTrace(); }
+        catch (FileNotFoundException e) { e.printStackTrace(System.err); }
         return mapping;
     }
 
@@ -54,6 +54,6 @@ public class FileParser
             fileWriter.write(inputBuffer.toString());
             fileWriter.close();
         }
-        catch (IOException e) { e.printStackTrace(); }
+        catch (IOException e) { e.printStackTrace(System.err); }
     }
 }

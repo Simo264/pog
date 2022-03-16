@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 
 /**
  * MenuBarComponent è il componente menu del frame principale.
- * Presenta i menu File, Option e Help con i rispettivi sottomenu.
+ * Presenta i menu File, Options e Help con i rispettivi sottomenu.
  */
 public class MenuBarComponent extends JMenuBar
 {
@@ -24,8 +24,14 @@ public class MenuBarComponent extends JMenuBar
     private JMenuItem menuOpen;
     private JMenuItem menuSave;
     private JMenuItem menuExit;
+
+    private JMenu menuOptions;
+    private JMenuItem menuSettings;
+
     private JMenu menuHelp;
     private JMenuItem ghLink;
+
+
 
     MenuBarComponent(Window parent)
     {
@@ -39,24 +45,30 @@ public class MenuBarComponent extends JMenuBar
         addActionListenerComponent(menuSave, MenuBarComponent::saveEvent);
         addActionListenerComponent(menuExit, MenuBarComponent::exitEvent);
         addActionListenerComponent(ghLink, MenuBarComponent::ghLinkEvent);
+        addActionListenerComponent(menuSettings, MenuBarComponent::settingsEvent);
     }
     private void initMenu()
     {
-        menuFile = new JMenu("file");
-        menuNewFile = new JMenuItem("new file");
-        menuOpen = new JMenuItem("open");
-        menuSave = new JMenuItem("save");
-        menuExit = new JMenuItem("exit");
+        menuFile = new JMenu("File");
+        menuNewFile = new JMenuItem("New file");
+        menuOpen = new JMenuItem("Open");
+        menuSave = new JMenuItem("Save");
+        menuExit = new JMenuItem("Exit");
         menuFile.add(menuNewFile);
         menuFile.add(menuOpen);
         menuFile.add(menuSave);
         menuFile.add(menuExit);
+
+        menuOptions = new JMenu("Options");
+        menuSettings = new JMenuItem("Settings");
+        menuOptions.add(menuSettings);
 
         menuHelp = new JMenu("help");
         ghLink = new JMenuItem("Github repository");
         menuHelp.add(ghLink);
 
         add(menuFile);
+        add(menuOptions);
         add(menuHelp);
     }
     private void addActionListenerComponent(JMenuItem item, Runnable method)
@@ -134,6 +146,11 @@ public class MenuBarComponent extends JMenuBar
         catch (IOException e) { e.printStackTrace(System.err); }
         catch (URISyntaxException e) { e.printStackTrace(System.err); }
     }
+    private static void settingsEvent()
+    {
+        SettingsFrame settingsFrame = new SettingsFrame(windowParent);
+    }
+
     private static void exitEvent()
     {
         System.exit(0);

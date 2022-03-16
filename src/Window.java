@@ -14,7 +14,9 @@ import java.util.LinkedHashMap;
 public class Window extends JFrame
 {
     private Workspace workspace;
-    private LinkedHashMap<String, String> properties;
+    private File windowConfigFile;
+    private LinkedHashMap<String, String> windowProperties;
+
     private MenuBarComponent menuBarComponent;
     private TablePanel tablePanel;
 
@@ -22,19 +24,17 @@ public class Window extends JFrame
     {
         workspace = new Workspace();
 
-        initProperties();
+        initConfigFile();
+        loadProperties();
         setWindowProperties();
         addWindowComponent();
     }
 
-    private void initProperties()
+    private void initConfigFile()
     {
         try
         {
-            ConfigurationFileWindow configurationFileWindow = new ConfigurationFileWindow();
-            File file = configurationFileWindow.getConfigurationFile();
-            FileParser fileParser = new FileParser(file);
-            properties = fileParser.getProperties();
+            windowConfigFile = new ConfigurationFileWindow().getConfigurationFile();
         }
         catch (FileNotFoundException e)
         {
@@ -42,15 +42,19 @@ public class Window extends JFrame
             System.exit(-1);
         }
     }
+    private void loadProperties()
+    {
+        FileParser fileParser = new FileParser(windowConfigFile);
+        windowProperties = fileParser.getProperties();
+    }
     private void setWindowProperties()
     {
-        String title = properties.get( "title");
-        int width = Integer.parseInt(properties.get( "width"));
-        int height = Integer.parseInt(properties.get("height"));
-        int posX = Integer.parseInt(properties.get( "posX"));
-        int posY = Integer.parseInt(properties.get( "posY"));
-        boolean visible = Boolean.parseBoolean(properties.get( "visible"));
-        boolean resizable = Boolean.parseBoolean(properties.get( "resizable"));
+        String title = windowProperties.get( "title");
+        int width = Integer.parseInt(windowProperties.get( "width"));
+        int height = Integer.parseInt(windowProperties.get("height"));
+        int posX = Integer.parseInt(windowProperties.get( "posX"));
+        int posY = Integer.parseInt(windowProperties.get( "posY"));
+        boolean resizable = Boolean.parseBoolean(windowProperties.get( "resizable"));
 
         Dimension dimension = new Dimension(width, height);
         Point location = new Point(posX, posY);
@@ -58,7 +62,7 @@ public class Window extends JFrame
         setTitle(title);
         setPreferredSize(dimension);
         setLocation(location);
-        setVisible(visible);
+        setVisible(false);
         setResizable(resizable);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -93,4 +97,16 @@ public class Window extends JFrame
      * @return workspace
      */
     public Workspace getWorkspace() { return workspace; }
+
+    /**
+     * Ritorna le proprietà del frame nel formato LinkedHashMap
+     * @return workspace
+     */
+    public LinkedHashMap<String, String> getWindowProperties() { return windowProperties; }
+
+    /**
+     * Ritorna il file di configurazione del frame
+     * @return workspace
+     */
+    public File getWindowConfigFile() { return windowConfigFile; }
 }

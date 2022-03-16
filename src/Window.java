@@ -4,10 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 
+/**
+ * La classe Window estende JFrame, rappresenta quindi la finestra principale in cui si aggiungeranno i vari
+ * componenti quali MenuBarComponent e il TablePanel.
+ *
+ * Dato il file di configurazione "window.init.config" che si trova nella cartella configs/, vengono impostate le
+ * proprietà del JFrame (es. titolo, dimensione, posizione...)
+ */
 public class Window extends JFrame
 {
     private Workspace workspace;
-
     private LinkedHashMap<String, String> properties;
     private MenuBarComponent menuBarComponent;
     private TablePanel tablePanel;
@@ -65,8 +71,26 @@ public class Window extends JFrame
         add(tablePanel);
     }
 
+    /**
+     * Il metodo start() di Window rende visible il frame
+     */
     public void start() { this.setVisible(true); }
+
+    /**
+     * Ritorna il componente MenuBarComponent
+     * @return menuBarComponent
+     */
     public MenuBarComponent getMenuBarComponent() { return menuBarComponent; }
+
+    /**
+     * Ritorna il componente TablePanel
+     * @return tablePanel
+     */
     public TablePanel getTablePanel() { return tablePanel; }
+
+    /**
+     * Ritorna l'oggetto workspace
+     * @return workspace
+     */
     public Workspace getWorkspace() { return workspace; }
 }

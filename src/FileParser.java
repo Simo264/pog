@@ -4,6 +4,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * La classe FileParser rappresenta un generico file di configurazione che abbia il formato [key=valore]
+ */
 public class FileParser
 {
     private File file;
@@ -13,6 +16,10 @@ public class FileParser
         file = inputFile;
     }
 
+    /**
+     * Legge il file di configurazione e salva i vari attributi in una LinkedHashMap
+     * @return
+     */
     public LinkedHashMap<String, String> getProperties()
     {
         LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
@@ -30,6 +37,11 @@ public class FileParser
         catch (FileNotFoundException e) { e.printStackTrace(); }
         return mapping;
     }
+
+    /**
+     * Aggiorna il file di configurazione con i nuovi attributi
+     * @param props
+     */
     public void updateProperties(LinkedHashMap<String, String> props)
     {
         StringBuffer inputBuffer = new StringBuffer();

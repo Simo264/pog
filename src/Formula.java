@@ -1,6 +1,10 @@
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * La classe Formula rappresenta una semplice formula in forma testuale (es. "=A0+B0").
+ * Una formula per essere valida deve presentare delle coordinate tabellari e non valori numerici.
+ */
 public class Formula
 {
     private final String delimiters = "-|\\+|\\*|\\/";
@@ -11,6 +15,18 @@ public class Formula
         rawFormula = formula.substring(1);
     }
 
+    /**
+     * Il metodo resolve() può operare in due modi:
+     * 1. la formula è un'assegnazione (es. "=A0", "=B2"): in questo caso la cella selezionata assumerà il valore
+     * della cella nella posizione data
+     *
+     * 2. la formula è una equazione (es. "=A1+B2"): in questo caso la cella selezionata assumerà il valore
+     * in posizione A1 + B2. Se in A1 o in B2 non saranno presenti valori numerici o sono presenti valori nulli
+     * non verrà fatta nessuna operazione.
+     *
+     * @param tableModel
+     * @return result
+     */
     public String resolve(TableModel tableModel)
     {
         final ArrayList<Coordinate> coordinates = splitCoordinates();
@@ -98,7 +114,7 @@ public class Formula
     }
 
 
-    public enum EOperators
+    private enum EOperators
     {
         SUM,
         SUBTRACTION,

@@ -8,6 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * TableModel è il modello del componente JTable. Vengono caricati dal file di configurazione "table.init.config"
+ * i vari attributi della tabella (es. numero righe, numero colonne, autosalvataggio)
+ */
 public class TableModel extends DefaultTableModel
 {
     private Window windowParent;
@@ -23,7 +27,7 @@ public class TableModel extends DefaultTableModel
     {
         super();
 
-        initProperties();
+        loadProperties();
         setTableProperties();
 
         windowParent = parent;
@@ -47,7 +51,7 @@ public class TableModel extends DefaultTableModel
         });
     }
 
-    private void initProperties()
+    private void loadProperties()
     {
         try
         {
@@ -105,10 +109,13 @@ public class TableModel extends DefaultTableModel
         }
     }
 
-
     @Override
     public boolean isCellEditable(int row, int column) { return (column != 0); }
 
+    /**
+     *
+     * @return il contenuto della tabella in formato LinkedHashMap
+     */
     public final LinkedHashMap<String, String> getTableContent()
     {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
@@ -127,6 +134,11 @@ public class TableModel extends DefaultTableModel
         }
         return map;
     }
+
+    /**
+     * Viene caricato nella tabella il contenuto di hashMap passato come parametro
+     * @param hashMap
+     */
     public void load(LinkedHashMap<String, String> hashMap)
     {
         for (Map.Entry<String, String> map :hashMap.entrySet())
@@ -138,6 +150,10 @@ public class TableModel extends DefaultTableModel
             setValueAt(value, point.y, point.x+1);
         }
     }
+
+    /**
+     * Svuota la tabella
+     */
     public void emptyTable()
     {
         for (int i = 0; i < nRows; i++)

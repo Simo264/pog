@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * TablePanel è il pannello principale del frame, contiene la tabella di lavoro
+ */
 public class TablePanel extends JPanel
 {
     private Window windowParent;

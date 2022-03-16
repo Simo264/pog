@@ -1,11 +1,19 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
 
+
+/**
+ * MenuBarComponent è il componente menu del frame principale.
+ * Presenta i menu File, Option e Help con i rispettivi sottomenu.
+ */
 public class MenuBarComponent extends JMenuBar
 {
     private static Window windowParent;
@@ -17,6 +25,7 @@ public class MenuBarComponent extends JMenuBar
     private JMenuItem menuSave;
     private JMenuItem menuExit;
     private JMenu menuHelp;
+    private JMenuItem ghLink;
 
     MenuBarComponent(Window parent)
     {
@@ -29,7 +38,7 @@ public class MenuBarComponent extends JMenuBar
         addActionListenerComponent(menuOpen, MenuBarComponent::openEvent);
         addActionListenerComponent(menuSave, MenuBarComponent::saveEvent);
         addActionListenerComponent(menuExit, MenuBarComponent::exitEvent);
-        addActionListenerComponent(menuHelp, MenuBarComponent::helpEvent);
+        addActionListenerComponent(ghLink, MenuBarComponent::ghLinkEvent);
     }
     private void initMenu()
     {
@@ -38,15 +47,16 @@ public class MenuBarComponent extends JMenuBar
         menuOpen = new JMenuItem("open");
         menuSave = new JMenuItem("save");
         menuExit = new JMenuItem("exit");
-
-        menuHelp = new JMenu("aiuto");
-
-        add(menuFile);
         menuFile.add(menuNewFile);
         menuFile.add(menuOpen);
         menuFile.add(menuSave);
         menuFile.add(menuExit);
 
+        menuHelp = new JMenu("help");
+        ghLink = new JMenuItem("Github repository");
+        menuHelp.add(ghLink);
+
+        add(menuFile);
         add(menuHelp);
     }
     private void addActionListenerComponent(JMenuItem item, Runnable method)
@@ -115,9 +125,14 @@ public class MenuBarComponent extends JMenuBar
         workspace.setCurrentWorkspace(null);
         windowParent.getTablePanel().getTableModel().emptyTable();
     }
-    private static void helpEvent()
+    private static void ghLinkEvent()
     {
-        System.out.println("To do helpEvent...");
+        try
+        {
+            Desktop.getDesktop().browse(new URI("https://github.com/Simo264/pog"));
+        }
+        catch (IOException e) { e.printStackTrace(System.err); }
+        catch (URISyntaxException e) { e.printStackTrace(System.err); }
     }
     private static void exitEvent()
     {

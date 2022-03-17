@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 
 /**
  * MenuBarComponent è il componente menu del frame principale.
- * Presenta i menu File, Options e Help con i rispettivi sottomenu.
+ * Presenta i menu File e Help con i rispettivi sottomenu.
  */
 public class MenuBarComponent extends JMenuBar
 {
@@ -25,13 +25,8 @@ public class MenuBarComponent extends JMenuBar
     private JMenuItem menuSave;
     private JMenuItem menuExit;
 
-    private JMenu menuOptions;
-    private JMenuItem menuSettings;
-
     private JMenu menuHelp;
     private JMenuItem ghLink;
-
-
 
     MenuBarComponent(Window parent)
     {
@@ -45,7 +40,6 @@ public class MenuBarComponent extends JMenuBar
         addActionListenerComponent(menuSave, MenuBarComponent::saveEvent);
         addActionListenerComponent(menuExit, MenuBarComponent::exitEvent);
         addActionListenerComponent(ghLink, MenuBarComponent::ghLinkEvent);
-        addActionListenerComponent(menuSettings, MenuBarComponent::settingsEvent);
     }
     private void initMenu()
     {
@@ -59,16 +53,11 @@ public class MenuBarComponent extends JMenuBar
         menuFile.add(menuSave);
         menuFile.add(menuExit);
 
-        menuOptions = new JMenu("Options");
-        menuSettings = new JMenuItem("Settings");
-        menuOptions.add(menuSettings);
-
         menuHelp = new JMenu("help");
         ghLink = new JMenuItem("Github repository");
         menuHelp.add(ghLink);
 
         add(menuFile);
-        add(menuOptions);
         add(menuHelp);
     }
     private void addActionListenerComponent(JMenuItem item, Runnable method)
@@ -145,10 +134,6 @@ public class MenuBarComponent extends JMenuBar
         }
         catch (IOException e) { e.printStackTrace(System.err); }
         catch (URISyntaxException e) { e.printStackTrace(System.err); }
-    }
-    private static void settingsEvent()
-    {
-        SettingsFrame settingsFrame = new SettingsFrame(windowParent);
     }
 
     private static void exitEvent()

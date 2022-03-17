@@ -1,6 +1,5 @@
 <map id="Grafico della gerarchia delle classi" name="Grafico della gerarchia delle classi">
-<area shape="rect" id="node1" href="$classConfigurationFile.html" title=" " alt="" coords="5,56,137,83"/>
-<area shape="rect" id="node2" href="$classConfigurationFileTable.html" title=" " alt="" coords="211,5,377,32"/>
-<area shape="rect" id="node3" href="$classConfigurationFileTableContent.html" title=" " alt="" coords="185,56,403,83"/>
-<area shape="rect" id="node4" href="$classConfigurationFileWindow.html" title=" " alt="" coords="202,107,386,133"/>
+<area shape="rect" id="node1" href="$classConfigurationFile.html" title=" " alt="" coords="5,31,137,57"/>
+<area shape="rect" id="node2" href="$classConfigurationFileTableContent.html" title=" " alt="" coords="185,5,403,32"/>
+<area shape="rect" id="node3" href="$classConfigurationFileWindow.html" title=" " alt="" coords="202,56,386,83"/>
 </map>

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['fileparser_32',['FileParser',['../classFileParser.html',1,'']]],
-  ['formula_33',['Formula',['../classFormula.html',1,'']]]
+  ['main_40',['Main',['../classMain.html',1,'']]],
+  ['menubarcomponent_41',['MenuBarComponent',['../classMenuBarComponent.html',1,'']]]
 ];

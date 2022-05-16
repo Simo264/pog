@@ -14,7 +14,7 @@ public abstract class ConfigurationFile
     private enum EBuildModes { WITH_IDE, WITH_MAKEFILE }
 
     //private final EBuildModes eBuildModes = EBuildModes.WITH_IDE;
-    private final EBuildModes eBuildModes = EBuildModes.WITH_MAKEFILE;
+    private final EBuildModes eBuildModes = EBuildModes.WITH_IDE;
 
 	private final Path CURRENT_PATH = Paths.get("").toAbsolutePath();
     protected String CONFIGS_DIRECTORY;

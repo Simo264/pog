@@ -13,6 +13,8 @@ import java.util.LinkedHashMap;
  */
 public class Window extends JFrame
 {
+
+
     private Workspace workspace;
     private File windowConfigFile;
     private LinkedHashMap<String, String> windowProperties;
@@ -29,6 +31,8 @@ public class Window extends JFrame
         setWindowProperties();
         addWindowComponent();
     }
+
+
 
     private void initConfigFile()
     {

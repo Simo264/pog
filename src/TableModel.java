@@ -11,6 +11,8 @@ import java.util.Vector;
  */
 public class TableModel extends DefaultTableModel
 {
+    private MyThread autoSaveThread;
+
     private Window windowParent;
     private Workspace workspace;
 
@@ -27,6 +29,9 @@ public class TableModel extends DefaultTableModel
         windowParent = parent;
         windowProperties = windowParent.getWindowProperties();
         workspace = windowParent.getWorkspace();
+
+        autoSaveThread = new MyThread(this, workspace);
+        autoSaveThread.start();
 
         setTableProperties();
         loadWorkspace();

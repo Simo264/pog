@@ -14,10 +14,9 @@ import java.util.LinkedHashMap;
  * MenuBarComponent è il componente menu del frame principale.
  * Presenta i menu File e Help con i rispettivi sottomenu.
  */
-public class MenuBarComponent extends JMenuBar
+public class ApplicationMenuBar extends JMenuBar
 {
-    private static Window windowParent;
-    private static Workspace workspace;
+    private static Application applicationParent;
 
     private JMenu menuFile;
     private JMenuItem menuNewFile;
@@ -28,18 +27,17 @@ public class MenuBarComponent extends JMenuBar
     private JMenu menuHelp;
     private JMenuItem ghLink;
 
-    MenuBarComponent(Window parent)
+    ApplicationMenuBar(Application parent)
     {
-        windowParent = parent;
-        workspace = windowParent.getWorkspace();
+        applicationParent = parent;
 
         initMenu();
 
-        addActionListenerComponent(menuNewFile, MenuBarComponent::newFileEvent);
-        addActionListenerComponent(menuOpen, MenuBarComponent::openEvent);
-        addActionListenerComponent(menuSave, MenuBarComponent::saveEvent);
-        addActionListenerComponent(menuExit, MenuBarComponent::exitEvent);
-        addActionListenerComponent(ghLink, MenuBarComponent::ghLinkEvent);
+        addActionListenerComponent(menuNewFile, ApplicationMenuBar::newFileEvent);
+        addActionListenerComponent(menuOpen, ApplicationMenuBar::openEvent);
+        addActionListenerComponent(menuSave, ApplicationMenuBar::saveEvent);
+        addActionListenerComponent(menuExit, ApplicationMenuBar::exitEvent);
+        addActionListenerComponent(ghLink, ApplicationMenuBar::ghLinkEvent);
     }
     private void initMenu()
     {
@@ -77,18 +75,19 @@ public class MenuBarComponent extends JMenuBar
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("*.config Files", "config"));
 
-        int returnVal = fileChooser.showSaveDialog(windowParent);
+        int returnVal = fileChooser.showSaveDialog(applicationParent);
         if (returnVal == JFileChooser.CANCEL_OPTION) return ;
         // ------------------------
 
         // Open configuration
-        workspace.setCurrentWorkspace(fileChooser.getSelectedFile());
+
+        applicationParent.workspace.setCurrentWS(fileChooser.getSelectedFile());
         File fileSelected = fileChooser.getSelectedFile();
         FileParser fileParser = new FileParser(fileSelected);
         LinkedHashMap<String, String> hashMap = fileParser.getProperties();
-        TableModel tableModel = windowParent.getTablePanel().getTableModel();
-        tableModel.emptyTable();
-        tableModel.load(hashMap);
+        ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.getTableModel();
+        applicationTableModel.emptyTable();
+        applicationTableModel.load(hashMap);
         // ------------------------
     }
     private static void saveEvent()
@@ -97,13 +96,13 @@ public class MenuBarComponent extends JMenuBar
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Saving current configuration *.config", "config"));
 
-        int returnVal = fileChooser.showSaveDialog(windowParent);
+        int returnVal = fileChooser.showSaveDialog(applicationParent);
         if (returnVal == JFileChooser.CANCEL_OPTION) return ;
 
         File file = fileChooser.getSelectedFile();
         if(file.exists())
         {
-            int confirmDialog = JOptionPane.showConfirmDialog(windowParent, "Overwrite selected file?");
+            int confirmDialog = JOptionPane.showConfirmDialog(applicationParent, "Overwrite selected file?");
             if(confirmDialog != 0) return;
         }
         try
@@ -114,17 +113,17 @@ public class MenuBarComponent extends JMenuBar
         // ------------------------
 
         // Save configuration
-        workspace.setCurrentWorkspace(file);
-        final TableModel tableModel = windowParent.getTablePanel().getTableModel();
-        LinkedHashMap<String, String> hashMap = tableModel.getTableContent();
+        applicationParent.workspace.setCurrentWS(file);
+        final ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.getTableModel();
+        LinkedHashMap<String, String> hashMap = applicationTableModel.getTableContent();
         FileParser fileParser = new FileParser(file);
         fileParser.updateProperties(hashMap);
         // ------------------------
     }
     private static void newFileEvent()
     {
-        workspace.setCurrentWorkspace(null);
-        windowParent.getTablePanel().getTableModel().emptyTable();
+        applicationParent.workspace.setCurrentWS(null);
+        applicationParent.applicationPanel.getTableModel().emptyTable();
     }
     private static void ghLinkEvent()
     {

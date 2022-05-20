@@ -4,25 +4,22 @@ import java.awt.*;
 /**
  * TablePanel è il pannello principale del frame, contiene la tabella di lavoro
  */
-public class TablePanel extends JPanel
+public class ApplicationPanel extends JPanel
 {
-    private Window windowParent;
-
-    private TableModel tableModel;
+    private ApplicationTableModel applicationTableModel;
     private JTable table;
     private JScrollPane scrollPane;
 
-    TablePanel(Window parent)
+    ApplicationPanel(Application applicationParent)
     {
-        windowParent = parent;
-        initPanel();
+        initPanel(applicationParent);
     }
-    private void initPanel()
+    private void initPanel(Application applicationParent)
     {
         setLayout(new BorderLayout());
 
-        tableModel = new TableModel(windowParent);
-        table = new JTable(tableModel);
+        applicationTableModel = new ApplicationTableModel(applicationParent);
+        table = new JTable(applicationTableModel);
         scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         table.setRowHeight(30);
@@ -33,7 +30,6 @@ public class TablePanel extends JPanel
         add(scrollPane, BorderLayout.CENTER);
     }
 
-
-    public TableModel getTableModel() { return tableModel; }
+    public ApplicationTableModel getTableModel() { return applicationTableModel; }
 }
 

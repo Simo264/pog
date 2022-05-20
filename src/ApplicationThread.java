@@ -1,17 +1,17 @@
 
-public class MyThread extends java.lang.Thread {
+public class ApplicationThread extends java.lang.Thread {
     private long timeOld;
     private long timeNew;
 
     private Workspace workspace;
 
-    private TableModel tableModel;
+    private ApplicationTableModel applicationTableModel;
 
     private final int timeInSecond = 1;
 
-    MyThread(TableModel model, Workspace ws)
+    ApplicationThread(ApplicationTableModel model, Workspace ws)
     {
-        tableModel = model;
+        applicationTableModel = model;
         workspace = ws;
 
         timeOld = System.currentTimeMillis();
@@ -25,11 +25,9 @@ public class MyThread extends java.lang.Thread {
             timeNew = System.currentTimeMillis();
             if(timeNew - timeOld >= timeInSecond * 1000)
             {
-                if(workspace.getCurrentWorkspace() != null)
-                {
-                    workspace.saveState(tableModel.getTableContent());
-                    System.out.println("auto save...");
-                }
+                if(workspace.getCurrentWS() != null)
+                    workspace.update(applicationTableModel.getTableContent());
+
                 timeOld = timeNew;
             }
         }

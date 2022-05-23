@@ -81,7 +81,7 @@ public class ApplicationMenuBar extends JMenuBar
 
         // Open configuration
 
-        applicationParent.workspace.setCurrentWS(fileChooser.getSelectedFile());
+        applicationParent.workspace.setWorkspace(fileChooser.getSelectedFile());
         File fileSelected = fileChooser.getSelectedFile();
         FileParser fileParser = new FileParser(fileSelected);
         LinkedHashMap<String, String> hashMap = fileParser.getProperties();
@@ -113,7 +113,7 @@ public class ApplicationMenuBar extends JMenuBar
         // ------------------------
 
         // Save configuration
-        applicationParent.workspace.setCurrentWS(file);
+        applicationParent.workspace.setWorkspace(file);
         final ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.getTableModel();
         LinkedHashMap<String, String> hashMap = applicationTableModel.getTableContent();
         FileParser fileParser = new FileParser(file);
@@ -122,7 +122,7 @@ public class ApplicationMenuBar extends JMenuBar
     }
     private static void newFileEvent()
     {
-        applicationParent.workspace.setCurrentWS(null);
+        applicationParent.workspace.setWorkspace(null);
         applicationParent.applicationPanel.getTableModel().emptyTable();
     }
     private static void ghLinkEvent()

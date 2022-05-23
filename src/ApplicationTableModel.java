@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Vector;
 
 /**
- * TableModel è il modello del componente JTable. Vengono caricati dal file di configurazione "table.init.config"
- * i vari attributi della tabella (es. numero righe, numero colonne, autosalvataggio)
+ * TableModel è il modello del componente JTable.
+ * Vengono caricati dal file di configurazione "window.config"
+ * il numero di righe e il numero di colonne della tabella
  */
 public class ApplicationTableModel extends DefaultTableModel
 {
@@ -34,7 +35,7 @@ public class ApplicationTableModel extends DefaultTableModel
         addTableModelListener(tableModelEvent -> {
             onUpdate();
 
-            if(applicationParent.workspace.getCurrentWS() != null)
+            if(applicationParent.workspace.getWorkspace() != null)
                 applicationParent.workspace.update(getTableContent());
         });
 
@@ -104,7 +105,7 @@ public class ApplicationTableModel extends DefaultTableModel
     }
     private void loadWorkspace()
     {
-        File file = applicationParent.workspace.getCurrentWS();
+        File file = applicationParent.workspace.getWorkspace();
         if(file != null)
         {
             FileParser fileParser = new FileParser(file);

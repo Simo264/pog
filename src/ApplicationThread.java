@@ -3,13 +3,13 @@ public class ApplicationThread extends java.lang.Thread {
     private long timeOld;
     private long timeNew;
 
-    private Workspace workspace;
+    private ApplicationWorkspace workspace;
 
     private ApplicationTableModel applicationTableModel;
 
     private final int timeInSecond = 1;
 
-    ApplicationThread(ApplicationTableModel model, Workspace ws)
+    ApplicationThread(ApplicationTableModel model, ApplicationWorkspace ws)
     {
         applicationTableModel = model;
         workspace = ws;
@@ -25,7 +25,7 @@ public class ApplicationThread extends java.lang.Thread {
             timeNew = System.currentTimeMillis();
             if(timeNew - timeOld >= timeInSecond * 1000)
             {
-                if(workspace.getCurrentWS() != null)
+                if(workspace.getWorkspace() != null)
                     workspace.update(applicationTableModel.getTableContent());
 
                 timeOld = timeNew;

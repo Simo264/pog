@@ -13,6 +13,8 @@ import java.util.LinkedHashMap;
  */
 public class Application extends JFrame
 {
+    private final String defaultFilename = "/window.config";
+
 
     /***** Window components ******/
     /******************************/
@@ -22,7 +24,7 @@ public class Application extends JFrame
 
     /***** Window properties ******/
     /******************************/
-    public Workspace workspace;
+    public ApplicationWorkspace workspace;
     public LinkedHashMap<String, String> windowProperties;
 
 
@@ -36,7 +38,7 @@ public class Application extends JFrame
 
     public void start()
     {
-        workspace = new Workspace();
+        workspace = new ApplicationWorkspace();
 
         setFrameProperties();
         addMenuBar();
@@ -49,17 +51,21 @@ public class Application extends JFrame
 
     private void loadProperties()
     {
+        File configurationFile = null;
         try
         {
-            File configurationFile = new ConfigurationFileWindow().getConfigurationFile();
-            FileParser fileParser = new FileParser(configurationFile);
-            windowProperties = fileParser.getProperties();
+            configurationFile = new File(ConfigDirectoryPath.getDirectoryPath() + defaultFilename);
+            if(!configurationFile.exists())
+                throw new FileNotFoundException();
         }
         catch (FileNotFoundException e)
         {
             e.printStackTrace(System.err);
             System.exit(-1);
         }
+
+        FileParser fileParser = new FileParser(configurationFile);
+        windowProperties = fileParser.getProperties();
     }
     private void setFrameProperties()
     {

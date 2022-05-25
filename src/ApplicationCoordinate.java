@@ -3,7 +3,7 @@ import java.awt.*;
 /**
  * La classe Coordinate rappresenta le coordinate nella tabella (es. A0, B0, C12, E3...)
  */
-public class Coordinate
+public class ApplicationCoordinate
 {
     private Character colID;
     private Integer rowID;
@@ -12,7 +12,7 @@ public class Coordinate
      * Prende in input una stringa che rappresenta una coordinata (es. "A0", "B12", "C1"...)
      * @param coordinate
      */
-    Coordinate(String coordinate)
+    ApplicationCoordinate(String coordinate)
     {
         colID = coordinate.charAt(0);
         colID = Character.toUpperCase(colID);
@@ -23,7 +23,7 @@ public class Coordinate
      * Prende in input un oggetto Point che rappresenta una coordinata cartesiana (es. (0,1), (2,2)...)
      * @param point
      */
-    Coordinate(Point point)
+    ApplicationCoordinate(Point point)
     {
         colID = (char) (point.x + 'A');
         rowID = point.y;

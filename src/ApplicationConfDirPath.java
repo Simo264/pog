@@ -1,7 +1,7 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class ConfigDirectoryPath
+public class ApplicationConfDirPath
 {
     private final static Path CURRENT_DIRECTORY = Paths.get("").toAbsolutePath();
 

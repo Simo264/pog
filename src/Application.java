@@ -8,24 +8,28 @@ import java.util.LinkedHashMap;
  * La classe Application estende JFrame, rappresenta quindi la finestra principale in cui si aggiungeranno i vari
  * componenti quali MenuBarComponent e il TablePanel.
  *
- * Dato il file di configurazione "window.config" che si trova nella cartella configs/, vengono impostate le
+ * Dato il file di configurazione "application.config" che si trova nella cartella configs/, vengono impostate le
  * proprietà del JFrame (es. titolo, dimensione, posizione...)
  */
 public class Application extends JFrame
 {
-    private final String defaultFilename = "/window.config";
-
+    private final String defaultConfigurationFileName = "application.config";
+    private final String defaultWorkspaceFileName = "workspace.config";
 
     /***** Window components ******/
     /******************************/
-    public ApplicationMenuBar applicationMenuBar;
-    public ApplicationPanel applicationPanel;
+    public final ApplicationMenuBar applicationMenuBar;
+    public final ApplicationPanel applicationPanel;
 
 
     /***** Window properties ******/
     /******************************/
+    public final LinkedHashMap<String, String> windowProperties;
+
+
+    /***** Application workspace ******/
+    /******************************/
     public ApplicationWorkspace workspace;
-    public LinkedHashMap<String, String> windowProperties;
 
 
 
@@ -33,48 +37,53 @@ public class Application extends JFrame
     /******************************/
     public Application()
     {
-        loadProperties();
+        File configuration = getConfiguration();
+        windowProperties = new ApplicationFileParser(configuration).getFileContent();
+
+        workspace = new ApplicationWorkspace(defaultWorkspaceFileName);
+
+        applicationMenuBar = new ApplicationMenuBar(this);
+        applicationPanel = new ApplicationPanel(this);
     }
 
     public void start()
     {
-        workspace = new ApplicationWorkspace();
-
         setFrameProperties();
-        addMenuBar();
-
-        addPanel();
+        setJMenuBar(applicationMenuBar);
+        add(applicationPanel);
     }
 
 
 
 
-    private void loadProperties()
+    private File getConfiguration()
     {
         File configurationFile = null;
         try
         {
-            configurationFile = new File(ConfigDirectoryPath.getDirectoryPath() + defaultFilename);
+            configurationFile = new File(
+                    ApplicationConfDirPath.getDirectoryPath() + "/" + defaultConfigurationFileName
+            );
             if(!configurationFile.exists())
                 throw new FileNotFoundException();
         }
         catch (FileNotFoundException e)
         {
-            e.printStackTrace(System.err);
+            JOptionPane.showMessageDialog(null,
+                    defaultConfigurationFileName + " file not found!",
+                    "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         }
-
-        FileParser fileParser = new FileParser(configurationFile);
-        windowProperties = fileParser.getProperties();
+        return configurationFile;
     }
     private void setFrameProperties()
     {
-        String title = windowProperties.get( "title");
-        int width = Integer.parseInt(windowProperties.get( "width"));
-        int height = Integer.parseInt(windowProperties.get("height"));
-        int posX = Integer.parseInt(windowProperties.get( "posX"));
-        int posY = Integer.parseInt(windowProperties.get( "posY"));
-        boolean resizable = Boolean.parseBoolean(windowProperties.get( "resizable"));
+        String title = windowProperties.get( "frame-title");
+        int width = Integer.parseInt(windowProperties.get( "frame-width"));
+        int height = Integer.parseInt(windowProperties.get("frame-height"));
+        int posX = Integer.parseInt(windowProperties.get( "frame-posX"));
+        int posY = Integer.parseInt(windowProperties.get( "frame-posY"));
+        boolean resizable = Boolean.parseBoolean(windowProperties.get( "frame-resizable"));
 
         Dimension dimension = new Dimension(width, height);
         Point location = new Point(posX, posY);
@@ -87,14 +96,5 @@ public class Application extends JFrame
         pack();
         setVisible(true);
     }
-    private void addMenuBar()
-    {
-        applicationMenuBar = new ApplicationMenuBar(this);
-        setJMenuBar(applicationMenuBar);
-    }
-    private void addPanel()
-    {
-        applicationPanel = new ApplicationPanel(this);
-        add(applicationPanel);
-    }
+
 }

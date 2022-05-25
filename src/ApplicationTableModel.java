@@ -7,7 +7,7 @@ import java.util.Vector;
 
 /**
  * TableModel è il modello del componente JTable.
- * Vengono caricati dal file di configurazione "window.config"
+ * Vengono caricati dal file di configurazione "application.config"
  * il numero di righe e il numero di colonne della tabella
  */
 public class ApplicationTableModel extends DefaultTableModel
@@ -17,7 +17,7 @@ public class ApplicationTableModel extends DefaultTableModel
     private Application applicationParent;
 
     private int nRows;
-    private int nCols;
+    private final int NUM_COL = 26;
 
     ApplicationTableModel(Application parent)
     {
@@ -35,7 +35,7 @@ public class ApplicationTableModel extends DefaultTableModel
         addTableModelListener(tableModelEvent -> {
             onUpdate();
 
-            if(applicationParent.workspace.getWorkspace() != null)
+            if(applicationParent.workspace.getFile() != null)
                 applicationParent.workspace.update(getTableContent());
         });
 
@@ -53,14 +53,14 @@ public class ApplicationTableModel extends DefaultTableModel
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         for (int i = 0; i < nRows; i++)
         {
-            for (int j = 1; j < nCols; j++)
+            for (int j = 1; j < NUM_COL; j++)
             {
                 final Object objectValue = getValueAt(i,j);
                 if(objectValue != null)
                 {
                     Point point = new Point(j-1, i);
-                    Coordinate coordinate = new Coordinate(point);
-                    map.put(coordinate.toString(), objectValue.toString());
+                    ApplicationCoordinate applicationCoordinate = new ApplicationCoordinate(point);
+                    map.put(applicationCoordinate.toString(), objectValue.toString());
                 }
             }
         }
@@ -75,10 +75,10 @@ public class ApplicationTableModel extends DefaultTableModel
     {
         for (Map.Entry<String, String> map : hashMap.entrySet())
         {
-            Coordinate coordinate = new Coordinate(map.getKey());
+            ApplicationCoordinate applicationCoordinate = new ApplicationCoordinate(map.getKey());
             String value = map.getValue();
 
-            Point point = coordinate.reverse();
+            Point point = applicationCoordinate.reverse();
             setValueAt(value, point.y, point.x+1);
         }
     }
@@ -89,7 +89,7 @@ public class ApplicationTableModel extends DefaultTableModel
     public void emptyTable()
     {
         for (int i = 0; i < nRows; i++)
-            for (int j = 1; j < nCols; j++)
+            for (int j = 1; j < NUM_COL; j++)
                 setValueAt(null, i, j);
     }
 
@@ -97,25 +97,23 @@ public class ApplicationTableModel extends DefaultTableModel
 
     private void setTableProperties()
     {
-        nRows = Integer.parseInt(applicationParent.windowProperties.get("rows"));
-        nCols = Integer.parseInt(applicationParent.windowProperties.get("cols"));
-
+        nRows = Integer.parseInt(applicationParent.windowProperties.get("table-num-rows"));
         addColumns();
         addRows();
     }
     private void loadWorkspace()
     {
-        File file = applicationParent.workspace.getWorkspace();
+        File file = applicationParent.workspace.getFile();
         if(file != null)
         {
-            FileParser fileParser = new FileParser(file);
-            load(fileParser.getProperties());
+            ApplicationFileParser applicationFileParser = new ApplicationFileParser(file);
+            load(applicationFileParser.getFileContent());
         }
     }
     private void addColumns()
     {
         addColumn("#");
-        for (int i = 0; i < nCols; i++)
+        for (int i = 0; i < NUM_COL; i++)
             addColumn((char)(i + 'A'));
     }
     private void addRows()
@@ -130,7 +128,7 @@ public class ApplicationTableModel extends DefaultTableModel
     {
         for (int i = 0; i < nRows; i++)
         {
-            for (int j = 1; j < nCols; j++)
+            for (int j = 1; j < NUM_COL; j++)
             {
                 final TextCell textCell = new TextCell(getValueAt(i,j));
                 if(textCell.isValid())

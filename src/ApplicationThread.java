@@ -1,5 +1,6 @@
 
-public class ApplicationThread extends java.lang.Thread {
+public class ApplicationThread extends java.lang.Thread
+{
     private long timeOld;
     private long timeNew;
 
@@ -25,7 +26,7 @@ public class ApplicationThread extends java.lang.Thread {
             timeNew = System.currentTimeMillis();
             if(timeNew - timeOld >= timeInSecond * 1000)
             {
-                if(workspace.getWorkspace() != null)
+                if(workspace.getFile() != null)
                     workspace.update(applicationTableModel.getTableContent());
 
                 timeOld = timeNew;

@@ -7,21 +7,23 @@ import java.util.*;
 /**
  * La classe FileParser rappresenta un generico file di configurazione che abbia il formato [key=valore]
  */
-public class FileParser
+public class ApplicationFileParser extends ApplicationFileWrapper
 {
-    private File file;
 
-    FileParser(File inputFile)
+    ApplicationFileParser(File inputFile)
     {
-        file = inputFile;
+        super(inputFile);
     }
 
     /**
      * Legge il file di configurazione e salva i vari attributi in una LinkedHashMap
+     *
      * @return
      */
-    public LinkedHashMap<String, String> getProperties()
+    public LinkedHashMap<String, String> getFileContent()
     {
+        if(file == null) return null;
+
         LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
         try
         {
@@ -35,17 +37,20 @@ public class FileParser
             }
         }
         catch (FileNotFoundException e) { e.printStackTrace(System.err); }
+        catch (ArrayIndexOutOfBoundsException e) { e.printStackTrace(System.err); }
         return mapping;
     }
 
     /**
      * Aggiorna il file di configurazione con i nuovi attributi
-     * @param props
+     * @param content
      */
-    public void updateProperties(LinkedHashMap<String, String> props)
+    public void update(LinkedHashMap<String, String> content)
     {
+        if(file == null) return;
+
         StringBuffer inputBuffer = new StringBuffer();
-        for (Map.Entry<String, String> entry : props.entrySet())
+        for (Map.Entry<String, String> entry : content.entrySet())
             inputBuffer.append(entry.getKey() + "=" + entry.getValue() + '\n');
 
         try

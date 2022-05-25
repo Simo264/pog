@@ -1,4 +1,4 @@
-import java.io.File;
+import javax.swing.*;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 
@@ -10,36 +10,30 @@ import java.util.LinkedHashMap;
  * Durante l'esecuzione del programma l'utente potrà decidere se aprire
  * un nuovo spazio di lavoro e il workspace sarà il nuovo file creato.
  */
-public class ApplicationWorkspace
+public class ApplicationWorkspace extends ApplicationFileWrapper
 {
-    private final String defaultWSName = "/workspace.config";
-    private File workspace = null;
-
-    ApplicationWorkspace()
+    ApplicationWorkspace(String filename)
     {
+        super(ApplicationConfDirPath.getDirectoryPath() + "/" + filename);
+
         try
         {
-            workspace = new File(ConfigDirectoryPath.getDirectoryPath() + defaultWSName);
-            if(!workspace.exists())
-                workspace.createNewFile();
+            if(!file.exists())
+                file.createNewFile();
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(
+                    null, e.getMessage(),"IOException", JOptionPane.ERROR_MESSAGE);
+            System.exit(-1);
         }
     }
 
-    /**
-     * Ritorna il workspace corrente
-     * @return currentws
-     */
-    public File getWorkspace() { return workspace; }
+    public LinkedHashMap<String, String> getFileContent()
+    {
+        return new ApplicationFileParser(this.file).getFileContent();
+    }
 
-    /**
-     * Imposta il workspace con un nuovo file
-     * @param file
-     */
-    public void setWorkspace(File file) { workspace = file; }
 
     /**
      * Salva lo stato dell'attuale workspace
@@ -47,13 +41,6 @@ public class ApplicationWorkspace
      */
     public void update(LinkedHashMap<String, String> content)
     {
-        if(workspace == null)
-        {
-            System.out.println("[Error in Workspace.saveState] file is null!");
-            return;
-        }
-        FileParser fileParser = new FileParser(workspace);
-        fileParser.updateProperties(content);
+        new ApplicationFileParser(this.file).update(content);
     }
-
 }

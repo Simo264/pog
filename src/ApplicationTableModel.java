@@ -12,8 +12,6 @@ import java.util.Vector;
  */
 public class ApplicationTableModel extends DefaultTableModel
 {
-    private ApplicationThread autoSaveThread;
-
     private Application applicationParent;
 
     private int nRows;
@@ -25,19 +23,21 @@ public class ApplicationTableModel extends DefaultTableModel
 
         applicationParent = parent;
 
-        autoSaveThread = new ApplicationThread(this, applicationParent.workspace);
-        autoSaveThread.start();
+        nRows = Integer.parseInt(applicationParent.applicationProperties.get("table-num-rows"));
+        addColumns();
+        addRows();
 
-        setTableProperties();
         loadWorkspace();
 
-
+/*
         addTableModelListener(tableModelEvent -> {
             onUpdate();
 
             if(applicationParent.workspace.getFile() != null)
                 applicationParent.workspace.update(getTableContent());
         });
+*/
+
 
     }
 
@@ -48,7 +48,7 @@ public class ApplicationTableModel extends DefaultTableModel
     /**
      * @return il contenuto della tabella in formato LinkedHashMap
      */
-    public final LinkedHashMap<String, String> getTableContent()
+    public final LinkedHashMap<String, String> getContent()
     {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         for (int i = 0; i < nRows; i++)
@@ -95,12 +95,6 @@ public class ApplicationTableModel extends DefaultTableModel
 
 
 
-    private void setTableProperties()
-    {
-        nRows = Integer.parseInt(applicationParent.windowProperties.get("table-num-rows"));
-        addColumns();
-        addRows();
-    }
     private void loadWorkspace()
     {
         File file = applicationParent.workspace.getFile();
@@ -131,15 +125,15 @@ public class ApplicationTableModel extends DefaultTableModel
             for (int j = 1; j < NUM_COL; j++)
             {
                 final TextCell textCell = new TextCell(getValueAt(i,j));
-                if(textCell.isValid())
+                if(!textCell.isValid()) continue;
+
+                if(textCell.getRawString().charAt(0) == '=')
                 {
-                    if(textCell.getRawString().charAt(0) == '=')
-                    {
-                        Formula formula = new Formula(textCell.getRawString());
-                        String result = formula.resolve(this);
-                        setValueAt(result, i, j);
-                    }
+                    Formula formula = new Formula(textCell.getRawString());
+                    String result = formula.resolve(this);
+                    setValueAt(result, i, j);
                 }
+
             }
         }
     }

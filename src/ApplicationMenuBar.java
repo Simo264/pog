@@ -69,6 +69,11 @@ public class ApplicationMenuBar extends JMenuBar
     }
 
 
+
+    /**
+     * Evento apri file: il workspace diventa il file selezionato dall'utente
+     * e viene caricato il contenuto del file nella tabella
+     * */
     private static void openEvent()
     {
         // Select File
@@ -80,21 +85,28 @@ public class ApplicationMenuBar extends JMenuBar
         // ------------------------
 
         // Open configuration
-
-        applicationParent.workspace.setFile(fileChooser.getSelectedFile());
-        File fileSelected = fileChooser.getSelectedFile();
-        ApplicationFileParser applicationFileParser = new ApplicationFileParser(fileSelected);
-        LinkedHashMap<String, String> hashMap = applicationFileParser.getFileContent();
-        ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.getTableModel();
+        File file = fileChooser.getSelectedFile();
+        applicationParent.workspace.setFile(file);
+        ApplicationFileParser applicationFileParser = new ApplicationFileParser(file);
+        ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.applicationTableModel;
         applicationTableModel.emptyTable();
-        applicationTableModel.load(hashMap);
+        applicationTableModel.load(applicationFileParser.getFileContent());
         // ------------------------
     }
+
+
+    /**
+     * Evento salva file: viene creato una copia del workspace attuale
+     * nella directory e con nome scelto dall'utente.
+     * Il workspace attuale rimane quello attuale o di default o il file
+     * scelto dall'utente
+     * */
     private static void saveEvent()
     {
         // Select File
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Saving current configuration *.config", "config"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter(
+                "Saving current configuration *.config", "config"));
 
         int returnVal = fileChooser.showSaveDialog(applicationParent);
         if (returnVal == JFileChooser.CANCEL_OPTION) return ;
@@ -112,19 +124,24 @@ public class ApplicationMenuBar extends JMenuBar
         catch (IOException e) { e.printStackTrace(); }
         // ------------------------
 
-        // Save configuration
-        applicationParent.workspace.setFile(file);
-        final ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.getTableModel();
-        LinkedHashMap<String, String> hashMap = applicationTableModel.getTableContent();
+        // Create copy
+        final ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.applicationTableModel;
         ApplicationFileParser applicationFileParser = new ApplicationFileParser(file);
-        applicationFileParser.update(hashMap);
+        applicationFileParser.update(applicationTableModel.getContent());
         // ------------------------
     }
+
+    /**
+     * Evento nuovo file: viene svuotato il contenuto del workspace e della tabella.
+     * Il workspace rimane quello attuale o di default o il file
+     * scelto dall'utente
+     * */
     private static void newFileEvent()
     {
-        applicationParent.workspace.setFile(null);
-        applicationParent.applicationPanel.getTableModel().emptyTable();
+        applicationParent.workspace.update(new LinkedHashMap<String, String>());
+        applicationParent.applicationPanel.applicationTableModel.emptyTable();
     }
+
     private static void ghLinkEvent()
     {
         try

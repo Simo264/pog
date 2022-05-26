@@ -24,12 +24,14 @@ public class Application extends JFrame
 
     /***** Window properties ******/
     /******************************/
-    public final LinkedHashMap<String, String> windowProperties;
+    public final LinkedHashMap<String, String> applicationProperties;
 
 
     /***** Application workspace ******/
     /******************************/
-    public ApplicationWorkspace workspace;
+    public final ApplicationWorkspace workspace;
+
+    private final ApplicationThread autoSaveThread;
 
 
 
@@ -37,13 +39,19 @@ public class Application extends JFrame
     /******************************/
     public Application()
     {
-        File configuration = getConfiguration();
-        windowProperties = new ApplicationFileParser(configuration).getFileContent();
+        File configuration = getConfigurationFile();
+        applicationProperties = new ApplicationFileParser(configuration).getFileContent();
 
         workspace = new ApplicationWorkspace(defaultWorkspaceFileName);
 
         applicationMenuBar = new ApplicationMenuBar(this);
         applicationPanel = new ApplicationPanel(this);
+
+        autoSaveThread = new ApplicationThread(
+                applicationPanel.applicationTableModel,
+                workspace,
+                Double.parseDouble(applicationProperties.get("autosave-time-seconds"))
+        );
     }
 
     public void start()
@@ -51,12 +59,14 @@ public class Application extends JFrame
         setFrameProperties();
         setJMenuBar(applicationMenuBar);
         add(applicationPanel);
+
+        autoSaveThread.start();
     }
 
 
 
 
-    private File getConfiguration()
+    private File getConfigurationFile()
     {
         File configurationFile = null;
         try
@@ -78,12 +88,12 @@ public class Application extends JFrame
     }
     private void setFrameProperties()
     {
-        String title = windowProperties.get( "frame-title");
-        int width = Integer.parseInt(windowProperties.get( "frame-width"));
-        int height = Integer.parseInt(windowProperties.get("frame-height"));
-        int posX = Integer.parseInt(windowProperties.get( "frame-posX"));
-        int posY = Integer.parseInt(windowProperties.get( "frame-posY"));
-        boolean resizable = Boolean.parseBoolean(windowProperties.get( "frame-resizable"));
+        String title = applicationProperties.get( "frame-title");
+        int width = Integer.parseInt(applicationProperties.get( "frame-width"));
+        int height = Integer.parseInt(applicationProperties.get("frame-height"));
+        int posX = Integer.parseInt(applicationProperties.get( "frame-posX"));
+        int posY = Integer.parseInt(applicationProperties.get( "frame-posY"));
+        boolean resizable = Boolean.parseBoolean(applicationProperties.get( "frame-resizable"));
 
         Dimension dimension = new Dimension(width, height);
         Point location = new Point(posX, posY);

@@ -6,22 +6,22 @@ import java.awt.*;
  */
 public class ApplicationPanel extends JPanel
 {
-    private ApplicationTableModel applicationTableModel;
-    private JTable table;
+    public final ApplicationTableModel applicationTableModel;
+    public final JTable table;
     private JScrollPane scrollPane;
 
     ApplicationPanel(Application applicationParent)
     {
-        initPanel(applicationParent);
+        applicationTableModel = new ApplicationTableModel(applicationParent);
+        table = new JTable(applicationTableModel);
+
+        initPanel();
     }
-    private void initPanel(Application applicationParent)
+    private void initPanel()
     {
         setLayout(new BorderLayout());
 
-        applicationTableModel = new ApplicationTableModel(applicationParent);
-        table = new JTable(applicationTableModel);
         scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
         table.setRowHeight(30);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         table.setColumnSelectionAllowed(false);
@@ -29,7 +29,5 @@ public class ApplicationPanel extends JPanel
         add(table.getTableHeader(), BorderLayout.PAGE_START);
         add(scrollPane, BorderLayout.CENTER);
     }
-
-    public ApplicationTableModel getTableModel() { return applicationTableModel; }
 }
 

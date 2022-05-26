@@ -1,20 +1,21 @@
 
 public class ApplicationThread extends java.lang.Thread
 {
+    private double timeInSecond;
     private long timeOld;
     private long timeNew;
 
     private ApplicationWorkspace workspace;
-
     private ApplicationTableModel applicationTableModel;
 
-    private final int timeInSecond = 1;
 
-    ApplicationThread(ApplicationTableModel model, ApplicationWorkspace ws)
+
+    ApplicationThread(ApplicationTableModel tableModel, ApplicationWorkspace ws, double autosaveTime)
     {
-        applicationTableModel = model;
+        applicationTableModel = tableModel;
         workspace = ws;
 
+        timeInSecond = autosaveTime;
         timeOld = System.currentTimeMillis();
         timeNew = timeOld;
     }
@@ -26,9 +27,7 @@ public class ApplicationThread extends java.lang.Thread
             timeNew = System.currentTimeMillis();
             if(timeNew - timeOld >= timeInSecond * 1000)
             {
-                if(workspace.getFile() != null)
-                    workspace.update(applicationTableModel.getTableContent());
-
+                workspace.update(applicationTableModel.getContent());
                 timeOld = timeNew;
             }
         }

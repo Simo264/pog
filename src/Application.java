@@ -106,5 +106,4 @@ public class Application extends JFrame
         pack();
         setVisible(true);
     }
-
 }

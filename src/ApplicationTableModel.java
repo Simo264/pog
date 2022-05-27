@@ -29,17 +29,13 @@ public class ApplicationTableModel extends DefaultTableModel
 
         loadWorkspace();
 
-/*
+
         addTableModelListener(tableModelEvent -> {
             onUpdate();
 
-            if(applicationParent.workspace.getFile() != null)
-                applicationParent.workspace.update(getTableContent());
+
         });
-*/
-
-
-    }
+   }
 
 
     @Override
@@ -124,6 +120,16 @@ public class ApplicationTableModel extends DefaultTableModel
         {
             for (int j = 1; j < NUM_COL; j++)
             {
+                Object obj = getValueAt(i,j);
+                if(obj == null || obj.toString().isEmpty()) continue;
+
+                if(obj.toString().charAt(0) == '='){}
+
+                ApplicationTextCell textCell = new ApplicationTextCell(obj);
+                System.out.println(textCell.getData());
+
+
+                /*
                 final TextCell textCell = new TextCell(getValueAt(i,j));
                 if(!textCell.isValid()) continue;
 
@@ -133,7 +139,7 @@ public class ApplicationTableModel extends DefaultTableModel
                     String result = formula.resolve(this);
                     setValueAt(result, i, j);
                 }
-
+                */
             }
         }
     }

@@ -31,6 +31,8 @@ public class ApplicationFileParser extends ApplicationFileWrapper
             while(scanner.hasNextLine())
             {
                 String line = scanner.nextLine();
+                if(line.isEmpty()) continue;
+
                 String k = line.split("=")[0];
                 String v = line.split("=")[1];
                 mapping.put(k, v);
@@ -51,7 +53,11 @@ public class ApplicationFileParser extends ApplicationFileWrapper
 
         StringBuffer inputBuffer = new StringBuffer();
         for (Map.Entry<String, String> entry : content.entrySet())
+        {
+            if(entry.getValue().isEmpty()) continue;
             inputBuffer.append(entry.getKey() + "=" + entry.getValue() + '\n');
+        }
+
 
         try
         {

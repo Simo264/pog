@@ -116,18 +116,30 @@ public class ApplicationTableModel extends DefaultTableModel
     }
     private void onUpdate()
     {
+        ApplicationCell cell = null;
+        ApplicationCellFormula cellFormula = null;
+
         for (int i = 0; i < nRows; i++)
         {
             for (int j = 1; j < NUM_COL; j++)
             {
-                Object obj = getValueAt(i,j);
-                if(obj == null || obj.toString().isEmpty()) continue;
+                cell = new ApplicationCell(getValueAt(i,j));
+                if(!cell.isValid()) continue;
 
-                if(obj.toString().charAt(0) == '='){}
 
-                ApplicationTextCell textCell = new ApplicationTextCell(obj);
-                System.out.println(textCell.getData());
+                if(cell.containsFormula())
+                {
+                    cellFormula = new ApplicationCellFormula(cell);
+                    if(!cellFormula.isValid())
+                    {
+                        System.err.println("Formula is not valid!");
+                        setValueAt(null, i, j);
+                        return;
+                    }
 
+                    Object o = cellFormula.resolve(this);
+                    setValueAt(o, i, j);
+                }
 
                 /*
                 final TextCell textCell = new TextCell(getValueAt(i,j));

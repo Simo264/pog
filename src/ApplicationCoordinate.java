@@ -5,8 +5,8 @@ import java.awt.*;
  */
 public class ApplicationCoordinate
 {
-    private Character colID;
-    private Integer rowID;
+    public final Character COL;
+    public final Integer ROW;
 
     /**
      * Prende in input una stringa che rappresenta una coordinata (es. "A0", "B12", "C1"...)
@@ -14,9 +14,8 @@ public class ApplicationCoordinate
      */
     ApplicationCoordinate(String coordinate)
     {
-        colID = coordinate.charAt(0);
-        colID = Character.toUpperCase(colID);
-        rowID = Integer.parseInt(coordinate.substring(1));
+        COL = Character.toUpperCase(coordinate.charAt(0));
+        ROW = Integer.parseInt(coordinate.substring(1));
     }
 
     /**
@@ -25,12 +24,12 @@ public class ApplicationCoordinate
      */
     ApplicationCoordinate(Point point)
     {
-        colID = (char) (point.x + 'A');
-        rowID = point.y;
+        COL = (char) (point.x + 'A');
+        ROW = point.y;
     }
 
     @Override
-    public String toString(){ return String.valueOf(colID) + String.valueOf(rowID); }
+    public String toString(){ return String.valueOf(COL) + String.valueOf(ROW); }
 
     /**
      * Converte la coordinata tabellare in una coordinata cartesiana
@@ -38,8 +37,16 @@ public class ApplicationCoordinate
      */
     public Point reverse()
     {
-        int col = (int) (colID - 'A');
-        int row = rowID ;
+        int col = (int) (this.COL - 'A');
+        int row = ROW;
         return new Point(col, row);
+    }
+
+    public static boolean isValid(String s)
+    {
+        if(s.length() != 2) return false;
+        if(s.charAt(0) < 'A' || s.charAt(0) > 'Z') return false;
+        if(s.charAt(1) < '0' || s.charAt(1) > '9') return false;
+        return true;
     }
 }

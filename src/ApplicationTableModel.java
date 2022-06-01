@@ -126,7 +126,6 @@ public class ApplicationTableModel extends DefaultTableModel
                 cell = new ApplicationCell(getValueAt(i,j));
                 if(!cell.isValid()) continue;
 
-
                 if(cell.containsFormula())
                 {
                     cellFormula = new ApplicationCellFormula(cell);
@@ -140,18 +139,6 @@ public class ApplicationTableModel extends DefaultTableModel
                     Object o = cellFormula.resolve(this);
                     setValueAt(o, i, j);
                 }
-
-                /*
-                final TextCell textCell = new TextCell(getValueAt(i,j));
-                if(!textCell.isValid()) continue;
-
-                if(textCell.getRawString().charAt(0) == '=')
-                {
-                    Formula formula = new Formula(textCell.getRawString());
-                    String result = formula.resolve(this);
-                    setValueAt(result, i, j);
-                }
-                */
             }
         }
     }

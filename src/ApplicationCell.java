@@ -1,9 +1,22 @@
+import java.awt.*;
+
 public class ApplicationCell
 {
     private Object data;
 
     ApplicationCell(Object o)
     {
+        data = o;
+    }
+    ApplicationCell(ApplicationCoordinate coordinate, ApplicationTableModel tableModel)
+    {
+        Point p = coordinate.reverse();
+        Object o = tableModel.getValueAt(p.y, p.x+1);
+        data = o;
+    }
+    ApplicationCell(int row, int col, ApplicationTableModel tableModel)
+    {
+        Object o = tableModel.getValueAt(row, col);
         data = o;
     }
 

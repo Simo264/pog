@@ -1,4 +1,6 @@
-
+/**
+ * Rappresenta un thread che periodicamente salva nel workspace il contenuto della tabella.
+ */
 public class ApplicationThread extends java.lang.Thread
 {
     private double timeInSecond;
@@ -9,7 +11,11 @@ public class ApplicationThread extends java.lang.Thread
     private ApplicationTableModel applicationTableModel;
 
 
-
+    /**
+     * @param tableModel per ottenere il contenuto della tabella
+     * @param ws per aggiornare il workspace
+     * @param autosaveTime il tempo in secondi per il salvataggio automatico
+     */
     ApplicationThread(ApplicationTableModel tableModel, ApplicationWorkspace ws, double autosaveTime)
     {
         applicationTableModel = tableModel;
@@ -20,6 +26,9 @@ public class ApplicationThread extends java.lang.Thread
         timeNew = timeOld;
     }
 
+    /**
+     * Avvia il thread per il salvataggio automatico
+     */
     public void run()
     {
         while(true)

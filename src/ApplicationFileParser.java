@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * La classe FileParser rappresenta un generico file di configurazione che abbia il formato [key=valore]
+ * La classe ApplicationFileParser rappresenta un generico file di configurazione con il formato [key=valore]
  */
 public class ApplicationFileParser extends ApplicationFileWrapper
 {
@@ -17,8 +17,7 @@ public class ApplicationFileParser extends ApplicationFileWrapper
 
     /**
      * Legge il file di configurazione e salva i vari attributi in una LinkedHashMap
-     *
-     * @return
+     * @return il contenuto in formato LinkedHashMap
      */
     public LinkedHashMap<String, String> getFileContent()
     {

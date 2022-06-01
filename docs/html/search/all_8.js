@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['savestate_25',['saveState',['../classWorkspace.html#a95a77192dbf39b649da0a29eaf65cec1',1,'Workspace']]],
-  ['setcurrentworkspace_26',['setCurrentWorkspace',['../classWorkspace.html#a15eded31759aec9a0b72cd440992041d',1,'Workspace']]],
-  ['start_27',['start',['../classWindow.html#afb38567abd9bbe002e55229fc2070a7b',1,'Window']]]
+  ['setfile_28',['setFile',['../classApplicationFileWrapper.html#a35c6e58c4bafc0d924b655bff90bd837',1,'ApplicationFileWrapper']]],
+  ['start_29',['start',['../classApplication.html#aff91ba26a8025ba08b2ac3accced3dcf',1,'Application']]]
 ];

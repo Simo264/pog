@@ -29,6 +29,9 @@ public class ApplicationWorkspace extends ApplicationFileWrapper
         }
     }
 
+    /**
+     * @return il contenuto presente all'interno del workspace nel formato LinkedHashMap
+     */
     public LinkedHashMap<String, String> getFileContent()
     {
         return new ApplicationFileParser(this.file).getFileContent();

@@ -1,14 +1,4 @@
 var searchData=
 [
-  ['getconfigdirectory_48',['getConfigDirectory',['../classConfigurationFile.html#a606ded6161e35da885b5ed817f841bc3',1,'ConfigurationFile']]],
-  ['getconfigurationfile_49',['getConfigurationFile',['../classConfigurationFileTableContent.html#ab21d68764eea247e4b7742aac09cce5e',1,'ConfigurationFileTableContent.getConfigurationFile()'],['../classConfigurationFileWindow.html#aeee9355df3c9f18047afdee94120f48d',1,'ConfigurationFileWindow.getConfigurationFile()']]],
-  ['getcurrentworkspace_50',['getCurrentWorkspace',['../classWorkspace.html#a69e783bceaccdc223afe36a1aa4502f2',1,'Workspace']]],
-  ['getmenubarcomponent_51',['getMenuBarComponent',['../classWindow.html#a7596bd69ae0b3dcb4ed76d04812cd047',1,'Window']]],
-  ['getproperties_52',['getProperties',['../classFileParser.html#a400a9bf9176abf9f05d3f8f9990aa165',1,'FileParser']]],
-  ['getrawstring_53',['getRawString',['../classTextCell.html#a970f914bf6de7e408a0686ce07a2be39',1,'TextCell']]],
-  ['gettablecontent_54',['getTableContent',['../classTableModel.html#a6bc994a75937e677eee1df77fb6ebfda',1,'TableModel']]],
-  ['gettablepanel_55',['getTablePanel',['../classWindow.html#a98ef5f681caa6e78795cf7feeb4d91aa',1,'Window']]],
-  ['getwindowconfigfile_56',['getWindowConfigFile',['../classWindow.html#aee09e5d7e010cd96e7148622cf04c47e',1,'Window']]],
-  ['getwindowproperties_57',['getWindowProperties',['../classWindow.html#a0e6fdcacf02e16cf4905dcd214463bc8',1,'Window']]],
-  ['getworkspace_58',['getWorkspace',['../classWindow.html#a877cb92f54dccaa995bf62f0a369d27f',1,'Window']]]
+  ['containsformula_48',['containsFormula',['../classApplicationCell.html#ab47aaf64d9ab7a13c5c49b067a51aea5',1,'ApplicationCell.containsFormula()'],['../classApplicationCellFormula.html#af2e2f863114ae42c74993a2750709fc1',1,'ApplicationCellFormula.containsFormula()']]]
 ];

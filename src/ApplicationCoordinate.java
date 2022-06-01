@@ -42,6 +42,12 @@ public class ApplicationCoordinate
         return new Point(col, row);
     }
 
+    /**
+     * Data una stringa s ritorna true se la stringa rappresenta una coordinata
+     * valida o no.
+     * @param s
+     * @return true se la stringa rappresenta una coordinata valida, false altrimenti
+     */
     public static boolean isValid(String s)
     {
         if(s.length() != 2) return false;

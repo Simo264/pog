@@ -8,7 +8,7 @@ import java.util.Vector;
 /**
  * TableModel è il modello del componente JTable.
  * Vengono caricati dal file di configurazione "application.config"
- * il numero di righe e il numero di colonne della tabella
+ * il numero di righe della tabella
  */
 public class ApplicationTableModel extends DefaultTableModel
 {
@@ -29,11 +29,8 @@ public class ApplicationTableModel extends DefaultTableModel
 
         loadWorkspace();
 
-
         addTableModelListener(tableModelEvent -> {
             onUpdate();
-
-
         });
    }
 

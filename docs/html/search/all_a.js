@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['updateproperties_31',['updateProperties',['../classFileParser.html#a29898bd05859ba7727280d8a35b89512',1,'FileParser']]]
+  ['workspace_31',['workspace',['../classApplication.html#a7877d1a83d36c2400cb89c84998da912',1,'Application']]]
 ];

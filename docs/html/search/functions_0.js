@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['emptytable_47',['emptyTable',['../classTableModel.html#a1b436222068a3473a03580559a9b0c8b',1,'TableModel']]]
+  ['application_47',['Application',['../classApplication.html#a05774c800b450273d31f0c0236d5c956',1,'Application']]]
 ];

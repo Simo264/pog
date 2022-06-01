@@ -1,5 +1,23 @@
 import java.awt.*;
 
+/**
+ * E' una specializzazione del tipo ApplicationCell.
+ * Rappresenta una formula (una stringa che inizia con il carattere '=')
+ * all'interno di una cella.
+ *
+ * Una formula è rappresentata dal seguente formato:
+ * =<coordinata/valore>[+-]<coordinata/valore>
+ * esempio: =A0, =12+A0, =12+12, =A0+A1...
+ *
+ * Ammette 3 operazioni: assegnazione, somma e sottrazione.
+ * 1. Assegnazione: ammette un solo operando di tipo coordinata o un valore numerico/testuale
+ *  Esempi: =A0, =hello, =12, =B12
+ *
+ * 2. Somma: ammette due operandi che possono essere di tipo coordinata o valori numerici/testuali
+ * Esempi: =A0+B0, =12+A0, =12+12, =hello+A0 =hello+world ...
+ *
+ * 3. Sottrazione: simile alla somma con la differenza che non ammette valori testuali.
+ */
 public class ApplicationCellFormula extends ApplicationCell
 {
     private String formula = null;
@@ -7,12 +25,21 @@ public class ApplicationCellFormula extends ApplicationCell
     private enum EOperations { SUM, SUB, ASSIGNMENT }
 
 
+    /**
+     * Viene passato un oggetto di tipo Object
+     * @param o
+     */
     ApplicationCellFormula(Object o)
     {
         super(o);
         formula = o.toString().substring(1);
     }
 
+    /**
+     * Viene passato un oggetto ApplicationCell per copiare il contenuto
+     * salvato nella cella
+     * @param cell
+     */
     ApplicationCellFormula(ApplicationCell cell)
     {
         super(cell.getData());
@@ -22,9 +49,11 @@ public class ApplicationCellFormula extends ApplicationCell
     @Override
     public boolean containsFormula() { return true; }
 
-    @Override
-    public boolean containsText() { return false; }
 
+    /**
+     * Controlla che la formula inserita sia valida o meno.
+     * @return true se la formula è una formula valida, false altrimenti
+     */
     @Override
     public boolean isValid()
     {
@@ -39,12 +68,20 @@ public class ApplicationCellFormula extends ApplicationCell
         return true;
     }
 
+    /**
+     * @return la formula in formato testuale
+     */
     @Override
     public Object getData()
     {
         return formula;
     }
 
+    /**
+     * Viene risolta la formula e viene ritornato il risultato
+     * @param tableModel
+     * @return il risulato nel tipo Object
+     */
     public Object resolve(ApplicationTableModel tableModel)
     {
         var op = operation();

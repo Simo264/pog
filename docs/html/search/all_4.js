@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['isnumeric_18',['isNumeric',['../classTextCell.html#ad2369a28139f83df4b33f8656fa2f63f',1,'TextCell']]],
-  ['isvalid_19',['isValid',['../classTextCell.html#af9d4f470946316c5a786fe2355911a09',1,'TextCell']]]
+  ['isnumeric_21',['isNumeric',['../classApplicationCell.html#aa15b300af29135ab0dbcd5d706c0e773',1,'ApplicationCell']]],
+  ['isvalid_22',['isValid',['../classApplicationCell.html#a6f67739da2d465eb9badeb2710dc8002',1,'ApplicationCell.isValid()'],['../classApplicationCellFormula.html#aa05bf9c4d794dda7a9635f3210e3c3f9',1,'ApplicationCellFormula.isValid()'],['../classApplicationCoordinate.html#a39efb9e1c309a885630ab7d348c34542',1,'ApplicationCoordinate.isValid()']]]
 ];

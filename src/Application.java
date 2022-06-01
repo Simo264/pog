@@ -16,27 +16,36 @@ public class Application extends JFrame
     private final String defaultConfigurationFileName = "application.config";
     private final String defaultWorkspaceFileName = "workspace.config";
 
-    /***** Window components ******/
-    /******************************/
+    //----- Window components -----//
+    //-----------------------------//
     public final ApplicationMenuBar applicationMenuBar;
     public final ApplicationPanel applicationPanel;
 
 
-    /***** Window properties ******/
-    /******************************/
+
+    /**
+     * Rappresenta il contenuto presente nel file di configurazione
+     * application.config nel formato [key=val]
+     */
     public final LinkedHashMap<String, String> applicationProperties;
 
-
-    /***** Application workspace ******/
-    /******************************/
+    /**
+     * Il workspace dell'applicazione
+     */
     public final ApplicationWorkspace workspace;
 
+
+    /**
+     * Usato per l'autosalvataggio del workspace
+     */
     private final ApplicationThread autoSaveThread;
 
 
-
-    /***** Constructor ******/
-    /******************************/
+    /**
+     * Il costruttore: viene caricato il contenuto dal file di configurazione
+     * application.config, inizializzati i componenti MenuBar, Panel,
+     * il workspace e il Thread per l'autosalvataggio
+     */
     public Application()
     {
         File configuration = getConfigurationFile();
@@ -54,6 +63,11 @@ public class Application extends JFrame
         );
     }
 
+    /**
+     * Il metodo start imposta le proprietà del frame,
+     * vengono aggiunti i componenti MenuBar e il pannello principale
+     * e viene avviato il thread per l'autosalvataggio
+     */
     public void start()
     {
         setFrameProperties();

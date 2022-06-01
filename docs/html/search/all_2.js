@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['fileparser_5',['FileParser',['../classFileParser.html',1,'']]],
-  ['formula_6',['Formula',['../classFormula.html',1,'']]]
+  ['emptytable_16',['emptyTable',['../classApplicationTableModel.html#a652f20a25d1109184ad93a32ccbdf780',1,'ApplicationTableModel']]]
 ];

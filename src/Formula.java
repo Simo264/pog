@@ -24,45 +24,45 @@ public class Formula
      * in posizione A1 + B2. Se in A1 o in B2 non saranno presenti valori numerici o sono presenti valori nulli
      * non verrà fatta nessuna operazione.
      *
-     * @param tableModel
+     * @param applicationTableModel
      * @return result
      */
-    public String resolve(TableModel tableModel)
+    public String resolve(ApplicationTableModel applicationTableModel)
     {
-        final ArrayList<Coordinate> coordinates = splitCoordinates();
+        final ArrayList<ApplicationCoordinate> applicationCoordinates = splitCoordinates();
 
-        if(coordinates == null)
+        if(applicationCoordinates == null)
             return null;
 
-        if(coordinates.size() == 1)
-            return simpleAssignment(coordinates, tableModel);
+        if(applicationCoordinates.size() == 1)
+            return simpleAssignment(applicationCoordinates, applicationTableModel);
 
-        if(coordinates.size() == 2)
-            return complexAssignment(coordinates, tableModel);
+        if(applicationCoordinates.size() == 2)
+            return complexAssignment(applicationCoordinates, applicationTableModel);
 
         return null;
     }
 
-    private String simpleAssignment(ArrayList<Coordinate> coordinates, TableModel tableModel)
+    private String simpleAssignment(ArrayList<ApplicationCoordinate> applicationCoordinates, ApplicationTableModel applicationTableModel)
     {
-        final Coordinate c = coordinates.get(0);
+        final ApplicationCoordinate c = applicationCoordinates.get(0);
         final Point p = c.reverse();
-        final TextCell textCell =  new TextCell(tableModel.getValueAt(p.y, p.x+1));
+        final TextCell textCell =  new TextCell(applicationTableModel.getValueAt(p.y, p.x+1));
 
         if(!textCell.isValid())
             return null;
 
         return textCell.getRawString();
     }
-    private String complexAssignment(ArrayList<Coordinate> coordinates, TableModel tableModel)
+    private String complexAssignment(ArrayList<ApplicationCoordinate> applicationCoordinates, ApplicationTableModel applicationTableModel)
     {
-        final Coordinate first = coordinates.get(0);
+        final ApplicationCoordinate first = applicationCoordinates.get(0);
         final Point firstPoint = first.reverse();
-        final TextCell firstCell = new TextCell(tableModel.getValueAt(firstPoint.y, firstPoint.x+1));
+        final TextCell firstCell = new TextCell(applicationTableModel.getValueAt(firstPoint.y, firstPoint.x+1));
 
-        final Coordinate second = coordinates.get(1);
+        final ApplicationCoordinate second = applicationCoordinates.get(1);
         final Point secondPoint = second.reverse();
-        final TextCell secondCell = new TextCell(tableModel.getValueAt(secondPoint.y, secondPoint.x+1));
+        final TextCell secondCell = new TextCell(applicationTableModel.getValueAt(secondPoint.y, secondPoint.x+1));
 
         final EOperators operator = getOperator();
 
@@ -90,19 +90,19 @@ public class Formula
         }
         return null;
     }
-    private ArrayList<Coordinate> splitCoordinates()
+    private ArrayList<ApplicationCoordinate> splitCoordinates()
     {
-        ArrayList<Coordinate> coordinates = new ArrayList<>();
+        ArrayList<ApplicationCoordinate> applicationCoordinates = new ArrayList<>();
         try
         {
             for (String s : rawFormula.split(delimiters))
-                coordinates.add(new Coordinate(s));
+                applicationCoordinates.add(new ApplicationCoordinate(s));
         }
         catch (StringIndexOutOfBoundsException e)
         {
             return null;
         }
-        return coordinates;
+        return applicationCoordinates;
     }
     private EOperators getOperator()
     {

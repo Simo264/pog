@@ -1,5 +1,5 @@
 # Progetto di programmazione ad oggetti
-### Guida all'installazione da riga di comando
+### Guida alla compilazione ed esecuzione da riga di comando
 
 1. Spostarsi nella cartella in cui è presente il file *makefile*.
 2. Compilare i sorgenti chiamando il comando ```make```. **I sorgenti compilati si troveranno nella directory out/production/pog**

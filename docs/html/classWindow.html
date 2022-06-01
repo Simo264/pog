@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>My-Excel: Riferimenti per la classe Window</title>
+<title>My-Excel: Riferimenti per la classe Application</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -45,7 +45,7 @@ $(function() {
 });
 /* @license-end */</script>
 <div id="main-nav"></div>
-<!-- window showing the filter options -->
+<!-- application showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
@@ -65,11 +65,11 @@ $(function() {
 <a href="#pub-methods">Membri pubblici</a> &#124;
 <a href="classWindow-members.html">Elenco di tutti i membri</a>  </div>
   <div class="headertitle">
-<div class="title">Riferimenti per la classe Window</div>  </div>
+<div class="title">Riferimenti per la classe Application</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Diagramma delle classi per Window</div>
+Diagramma delle classi per Application</div>
 <div class="dyncontent">
 <div class="center"><img src="classWindow__inherit__graph.png" border="0" usemap="#aWindow_inherit__map" alt="Inheritance graph"/></div>
 <map name="aWindow_inherit__map" id="aWindow_inherit__map">
@@ -78,7 +78,7 @@ Diagramma delle classi per Window</div>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legenda</a>]</span></center></div>
 <div class="dynheader">
-Diagramma di collaborazione per Window:</div>
+Diagramma di collaborazione per Application:</div>
 <div class="dyncontent">
 <div class="center"><img src="classWindow__coll__graph.png" border="0" usemap="#aWindow_coll__map" alt="Collaboration graph"/></div>
 <map name="aWindow_coll__map" id="aWindow_coll__map">
@@ -91,9 +91,9 @@ Diagramma di collaborazione per Window:</div>
 Membri pubblici</h2></td></tr>
 <tr class="memitem:afb38567abd9bbe002e55229fc2070a7b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWindow.html#afb38567abd9bbe002e55229fc2070a7b">start</a> ()</td></tr>
 <tr class="separator:afb38567abd9bbe002e55229fc2070a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7596bd69ae0b3dcb4ed76d04812cd047"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMenuBarComponent.html">MenuBarComponent</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWindow.html#a7596bd69ae0b3dcb4ed76d04812cd047">getMenuBarComponent</a> ()</td></tr>
+<tr class="memitem:a7596bd69ae0b3dcb4ed76d04812cd047"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMenuBarComponent.html">ApplicationMenuBar</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWindow.html#a7596bd69ae0b3dcb4ed76d04812cd047">getMenuBarComponent</a> ()</td></tr>
 <tr class="separator:a7596bd69ae0b3dcb4ed76d04812cd047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98ef5f681caa6e78795cf7feeb4d91aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classTablePanel.html">TablePanel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWindow.html#a98ef5f681caa6e78795cf7feeb4d91aa">getTablePanel</a> ()</td></tr>
+<tr class="memitem:a98ef5f681caa6e78795cf7feeb4d91aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classTablePanel.html">ApplicationPanel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWindow.html#a98ef5f681caa6e78795cf7feeb4d91aa">getTablePanel</a> ()</td></tr>
 <tr class="separator:a98ef5f681caa6e78795cf7feeb4d91aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a877cb92f54dccaa995bf62f0a369d27f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classWorkspace.html">Workspace</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWindow.html#a877cb92f54dccaa995bf62f0a369d27f">getWorkspace</a> ()</td></tr>
 <tr class="separator:a877cb92f54dccaa995bf62f0a369d27f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,8 +103,8 @@ Membri pubblici</h2></td></tr>
 <tr class="separator:aee09e5d7e010cd96e7148622cf04c47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Descrizione dettagliata</h2>
-<div class="textblock"><p>La classe <a class="el" href="classWindow.html">Window</a> estende JFrame, rappresenta quindi la finestra principale in cui si aggiungeranno i vari componenti quali <a class="el" href="classMenuBarComponent.html">MenuBarComponent</a> e il <a class="el" href="classTablePanel.html">TablePanel</a>.</p>
-<p>Dato il file di configurazione "window.init.config" che si trova nella cartella configs/, vengono impostate le proprietà del JFrame (es. titolo, dimensione, posizione...) </p>
+<div class="textblock"><p>La classe <a class="el" href="classWindow.html">Application</a> estende JFrame, rappresenta quindi la finestra principale in cui si aggiungeranno i vari componenti quali <a class="el" href="classMenuBarComponent.html">ApplicationMenuBar</a> e il <a class="el" href="classTablePanel.html">ApplicationPanel</a>.</p>
+<p>Dato il file di configurazione "application.init.config" che si trova nella cartella configs/, vengono impostate le proprietà del JFrame (es. titolo, dimensione, posizione...) </p>
 </div><h2 class="groupheader">Documentazione delle funzioni membro</h2>
 <a id="a7596bd69ae0b3dcb4ed76d04812cd047"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7596bd69ae0b3dcb4ed76d04812cd047">&#9670;&nbsp;</a></span>getMenuBarComponent()</h2>
@@ -113,14 +113,14 @@ Membri pubblici</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classMenuBarComponent.html">MenuBarComponent</a> Window.getMenuBarComponent </td>
+          <td class="memname"><a class="el" href="classMenuBarComponent.html">ApplicationMenuBar</a> Application.getMenuBarComponent </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Ritorna il componente <a class="el" href="classMenuBarComponent.html">MenuBarComponent</a> </p><dl class="section return"><dt>Restituisce</dt><dd>menuBarComponent </dd></dl>
+<p>Ritorna il componente <a class="el" href="classMenuBarComponent.html">ApplicationMenuBar</a> </p><dl class="section return"><dt>Restituisce</dt><dd>menuBarComponent </dd></dl>
 
 </div>
 </div>
@@ -131,14 +131,14 @@ Membri pubblici</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classTablePanel.html">TablePanel</a> Window.getTablePanel </td>
+          <td class="memname"><a class="el" href="classTablePanel.html">ApplicationPanel</a> Application.getTablePanel </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Ritorna il componente <a class="el" href="classTablePanel.html">TablePanel</a> </p><dl class="section return"><dt>Restituisce</dt><dd>tablePanel </dd></dl>
+<p>Ritorna il componente <a class="el" href="classTablePanel.html">ApplicationPanel</a> </p><dl class="section return"><dt>Restituisce</dt><dd>tablePanel </dd></dl>
 
 </div>
 </div>
@@ -149,7 +149,7 @@ Membri pubblici</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">File Window.getWindowConfigFile </td>
+          <td class="memname">File Application.getWindowConfigFile </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -167,7 +167,7 @@ Membri pubblici</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">LinkedHashMap&lt;String, String&gt; Window.getWindowProperties </td>
+          <td class="memname">LinkedHashMap&lt;String, String&gt; Application.getWindowProperties </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -185,7 +185,7 @@ Membri pubblici</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classWorkspace.html">Workspace</a> Window.getWorkspace </td>
+          <td class="memname"><a class="el" href="classWorkspace.html">Workspace</a> Application.getWorkspace </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -203,19 +203,19 @@ Membri pubblici</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Window.start </td>
+          <td class="memname">void Application.start </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Il metodo <a class="el" href="classWindow.html#afb38567abd9bbe002e55229fc2070a7b">start()</a> di <a class="el" href="classWindow.html">Window</a> rende visible il frame </p>
+<p>Il metodo <a class="el" href="classWindow.html#afb38567abd9bbe002e55229fc2070a7b">start()</a> di <a class="el" href="classWindow.html">Application</a> rende visible il frame </p>
 
 </div>
 </div>
 <hr/>La documentazione per questa classe è stata generata a partire dal seguente file:<ul>
-<li>Window.java</li>
+<li>Application.java</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

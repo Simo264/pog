@@ -4,9 +4,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.LinkedHashMap;
 
 
@@ -78,20 +80,21 @@ public class ApplicationMenuBar extends JMenuBar
     {
         // Select File
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("*.config Files", "config"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("*.bin Files", "bin"));
 
         int returnVal = fileChooser.showSaveDialog(applicationParent);
         if (returnVal == JFileChooser.CANCEL_OPTION) return ;
-        // ------------------------
 
-        // Open configuration
+        // Il nuovo workspace diventa il file selezionato
         File file = fileChooser.getSelectedFile();
         applicationParent.workspace.setFile(file);
-        ApplicationFileParser applicationFileParser = new ApplicationFileParser(file);
+
+        // Svuota la tabella
         ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.applicationTableModel;
         applicationTableModel.emptyTable();
-        applicationTableModel.load(applicationFileParser.getFileContent());
-        // ------------------------
+
+        // Carica il contenuto nella tabella
+        applicationTableModel.load(applicationParent.workspace.getFileContent());
     }
 
 
@@ -106,29 +109,32 @@ public class ApplicationMenuBar extends JMenuBar
         // Select File
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter(
-                "Saving current configuration *.config", "config"));
+                "Saving current workspace *.bin", "bin"));
 
         int returnVal = fileChooser.showSaveDialog(applicationParent);
         if (returnVal == JFileChooser.CANCEL_OPTION) return ;
 
-        File file = fileChooser.getSelectedFile();
-        if(file.exists())
+        File fileCopy = fileChooser.getSelectedFile();
+        if(fileCopy.exists())
         {
-            int confirmDialog = JOptionPane.showConfirmDialog(applicationParent, "Overwrite selected file?");
+            int confirmDialog = JOptionPane.showConfirmDialog(
+                    applicationParent, "Overwrite selected file?");
             if(confirmDialog != 0) return;
+
+            fileCopy.delete();
         }
+
         try
         {
-            file.createNewFile();
+            Files.copy(
+                    applicationParent.workspace.getFile().toPath(),
+                    fileCopy.toPath()
+            );
         }
-        catch (IOException e) { e.printStackTrace(); }
-        // ------------------------
-
-        // Create copy
-        final ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.applicationTableModel;
-        ApplicationFileParser applicationFileParser = new ApplicationFileParser(file);
-        applicationFileParser.update(applicationTableModel.getContent());
-        // ------------------------
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

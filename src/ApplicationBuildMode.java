@@ -6,5 +6,5 @@
 public class ApplicationBuildMode
 {
     public static enum EBuildModes { IDE, CLI };
-    public final static EBuildModes BUILD_MODE = EBuildModes.CLI;
+    public final static EBuildModes BUILD_MODE = EBuildModes.IDE;
 }

@@ -23,11 +23,13 @@ public class ApplicationTableModel extends DefaultTableModel
 
         applicationParent = parent;
 
-        nRows = Integer.parseInt(applicationParent.applicationProperties.get("table-num-rows"));
+        LinkedHashMap<String, String> fileContent = applicationParent.configurationFile.getFileContent();
+        nRows = Integer.parseInt(fileContent.get("table-num-rows"));
+
         addColumns();
         addRows();
 
-        loadWorkspace();
+        load(applicationParent.workspace.getFileContent());
 
         addTableModelListener(tableModelEvent -> {
             onUpdate();
@@ -88,15 +90,6 @@ public class ApplicationTableModel extends DefaultTableModel
 
 
 
-    private void loadWorkspace()
-    {
-        File file = applicationParent.workspace.getFile();
-        if(file != null)
-        {
-            ApplicationFileParser applicationFileParser = new ApplicationFileParser(file);
-            load(applicationFileParser.getFileContent());
-        }
-    }
     private void addColumns()
     {
         addColumn("#");

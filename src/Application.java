@@ -13,30 +13,25 @@ import java.util.LinkedHashMap;
  */
 public class Application extends JFrame
 {
-    private final String defaultConfigurationFileName = "application.config";
-    private final String defaultWorkspaceFileName = "workspace.config";
-
     //----- Window components -----//
     //-----------------------------//
     public final ApplicationMenuBar applicationMenuBar;
     public final ApplicationPanel applicationPanel;
-
-
-
-    /**
-     * Rappresenta il contenuto presente nel file di configurazione
-     * application.config nel formato [key=val]
-     */
-    public final LinkedHashMap<String, String> applicationProperties;
+    //-----------------------------//s
 
     /**
      * Il workspace dell'applicazione
      */
     public final ApplicationWorkspace workspace;
 
+    /**
+     * Il file di configurazione dell'applicazione
+     */
+    public final ApplicationConfigFile configurationFile;
+
 
     /**
-     * Usato per l'autosalvataggio del workspace
+     * Thred usato per l'autosalvataggio del workspace
      */
     private final ApplicationThread autoSaveThread;
 
@@ -48,10 +43,8 @@ public class Application extends JFrame
      */
     public Application()
     {
-        File configuration = getConfigurationFile();
-        applicationProperties = new ApplicationFileParser(configuration).getFileContent();
-
-        workspace = new ApplicationWorkspace(defaultWorkspaceFileName);
+        configurationFile = new ApplicationConfigFile();
+        workspace = new ApplicationWorkspace();
 
         applicationMenuBar = new ApplicationMenuBar(this);
         applicationPanel = new ApplicationPanel(this);
@@ -59,7 +52,7 @@ public class Application extends JFrame
         autoSaveThread = new ApplicationThread(
                 applicationPanel.applicationTableModel,
                 workspace,
-                Double.parseDouble(applicationProperties.get("autosave-time-seconds"))
+                Double.parseDouble(configurationFile.getFileContent().get("autosave-time-seconds"))
         );
     }
 
@@ -70,7 +63,7 @@ public class Application extends JFrame
      */
     public void start()
     {
-        setFrameProperties();
+        setFrameProperties(configurationFile.getFileContent());
         setJMenuBar(applicationMenuBar);
         add(applicationPanel);
 
@@ -78,46 +71,26 @@ public class Application extends JFrame
     }
 
 
-
-
-    private File getConfigurationFile()
+    private void setFrameProperties(LinkedHashMap<String, String> content)
     {
-        File configurationFile = null;
-        try
-        {
-            configurationFile = new File(
-                    ApplicationConfDirPath.getDirectoryPath() + "/" + defaultConfigurationFileName
-            );
-            if(!configurationFile.exists())
-                throw new FileNotFoundException();
-        }
-        catch (FileNotFoundException e)
-        {
-            JOptionPane.showMessageDialog(null,
-                    defaultConfigurationFileName + " file not found!",
-                    "FileNotFoundException", JOptionPane.ERROR_MESSAGE);
-            System.exit(-1);
-        }
-        return configurationFile;
-    }
-    private void setFrameProperties()
-    {
-        String title = applicationProperties.get( "frame-title");
-        int width = Integer.parseInt(applicationProperties.get( "frame-width"));
-        int height = Integer.parseInt(applicationProperties.get("frame-height"));
-        int posX = Integer.parseInt(applicationProperties.get( "frame-posX"));
-        int posY = Integer.parseInt(applicationProperties.get( "frame-posY"));
-        boolean resizable = Boolean.parseBoolean(applicationProperties.get( "frame-resizable"));
+        setTitle(content.get( "frame-title"));
 
-        Dimension dimension = new Dimension(width, height);
-        Point location = new Point(posX, posY);
+        setPreferredSize(new Dimension(
+                Integer.parseInt(content.get( "frame-width")),
+                Integer.parseInt(content.get("frame-height"))
+        ));
 
-        setTitle(title);
-        setPreferredSize(dimension);
-        setLocation(location);
-        setResizable(resizable);
+        setLocation(new Point(
+                Integer.parseInt(content.get( "frame-posX")),
+                Integer.parseInt(content.get( "frame-posY"))
+        ));
+
+        setResizable(
+                Boolean.parseBoolean(content.get( "frame-resizable"))
+        );
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        pack();
         setVisible(true);
+        pack();
     }
 }

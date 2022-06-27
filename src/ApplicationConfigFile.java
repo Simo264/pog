@@ -5,12 +5,21 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * La classe ApplicationFileParser rappresenta un generico file di configurazione con il formato [key=valore]
+ * La classe ApplicationConfigFile estende la classe ApplicationFileWrapper e
+ * rappresenta un file di configurazione con il formato key=val.
  */
-public class ApplicationFileParser extends ApplicationFileWrapper
+public class ApplicationConfigFile extends ApplicationFileWrapper
 {
+    private static final String DEFAULT_FILE_NAME = "application.config";
+    private static final String DEFAULT_FILE_PATH =
+            ApplicationPaths.getConfigDirectoryPath() + "/" + DEFAULT_FILE_NAME;;
 
-    ApplicationFileParser(File inputFile)
+    ApplicationConfigFile()
+    {
+        super(DEFAULT_FILE_PATH);
+    }
+
+    ApplicationConfigFile(File inputFile)
     {
         super(inputFile);
     }
@@ -21,12 +30,10 @@ public class ApplicationFileParser extends ApplicationFileWrapper
      */
     public LinkedHashMap<String, String> getFileContent()
     {
-        if(file == null) return null;
-
         LinkedHashMap<String, String> mapping = new LinkedHashMap<>();
         try
         {
-            Scanner scanner = new Scanner(file);
+            Scanner scanner = new Scanner(getFile());
             while(scanner.hasNextLine())
             {
                 String line = scanner.nextLine();
@@ -48,8 +55,6 @@ public class ApplicationFileParser extends ApplicationFileWrapper
      */
     public void update(LinkedHashMap<String, String> content)
     {
-        if(file == null) return;
-
         StringBuffer inputBuffer = new StringBuffer();
         for (Map.Entry<String, String> entry : content.entrySet())
         {
@@ -57,10 +62,9 @@ public class ApplicationFileParser extends ApplicationFileWrapper
             inputBuffer.append(entry.getKey() + "=" + entry.getValue() + '\n');
         }
 
-
         try
         {
-            FileWriter fileWriter  = new FileWriter(file);
+            FileWriter fileWriter  = new FileWriter(getFile());
             fileWriter.write(inputBuffer.toString());
             fileWriter.close();
         }

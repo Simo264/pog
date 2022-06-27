@@ -1,4 +1,4 @@
-<map id="ApplicationFileParser" name="ApplicationFileParser">
+<map id="ApplicationConfigFile" name="ApplicationConfigFile">
 <area shape="rect" id="node1" title=" " alt="" coords="13,171,171,197"/>
 <area shape="rect" id="node2" href="$classApplicationFileWrapper.html" title=" " alt="" coords="5,95,179,121"/>
 <area shape="rect" id="node3" title=" " alt="" coords="69,5,115,32"/>

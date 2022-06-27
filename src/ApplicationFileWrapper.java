@@ -1,15 +1,15 @@
+import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 
 /**
- * E' una classe astratta che rappresenta un contenitore per un File generico.
+ * E' una classe astratta che rappresenta un wrapper di un generico File.
  */
 public abstract class ApplicationFileWrapper
 {
-    protected File file = null;
+    private File file;
 
-    ApplicationFileWrapper()    {
-    }
     ApplicationFileWrapper(File file)
     {
         this.file = file;
@@ -17,6 +17,20 @@ public abstract class ApplicationFileWrapper
     ApplicationFileWrapper(String filePath)
     {
         file = new File(filePath);
+
+        if(!file.exists())
+        {
+            try
+            {
+                file.createNewFile();
+            }
+            catch (IOException e)
+            {
+                JOptionPane.showMessageDialog(
+                    null, e.getMessage(),"IOException", JOptionPane.ERROR_MESSAGE);
+                System.exit(-1);
+            }
+        }
     }
 
 

@@ -1,49 +1,85 @@
-import javax.swing.*;
-import java.io.IOException;
+import java.io.*;
 import java.util.LinkedHashMap;
 
 /**
- * La classe Workspace rappresenta il file di lavoro in cui si sta lavorando.
- * All'avvio del programma il workspace di default sarà il file (se esiste)
- * "workspace.config" all'interno della cartella configs/, altrimenti null.
+ * La classe Workspace estende ApplicationFileWrapper e rappresenta il file
+ * di lavoro in cui si sta lavorando. Il file è serializzato.
+ *
+ * All'avvio del programma il workspace di default sarà il file "configs/workspace.bin".
  *
  * Durante l'esecuzione del programma l'utente potrà decidere se aprire
- * un nuovo spazio di lavoro e il workspace sarà il nuovo file creato.
+ * un nuovo spazio di lavoro e il workspace sarà il nuovo file aperto.
  */
 public class ApplicationWorkspace extends ApplicationFileWrapper
 {
-    ApplicationWorkspace(String filename)
-    {
-        super(ApplicationConfDirPath.getDirectoryPath() + "/" + filename);
+    private static final String DEFAULT_FILE_NAME = "workspace.bin";
+    private static final String DEFAULT_FILE_PATH =
+            ApplicationPaths.getConfigDirectoryPath() + "/" + DEFAULT_FILE_NAME;
 
-        try
-        {
-            if(!file.exists())
-                file.createNewFile();
-        }
-        catch (IOException e)
-        {
-            JOptionPane.showMessageDialog(
-                    null, e.getMessage(),"IOException", JOptionPane.ERROR_MESSAGE);
-            System.exit(-1);
-        }
+    public ApplicationWorkspace()
+    {
+        super(DEFAULT_FILE_PATH);
+    }
+
+    ApplicationWorkspace(File file)
+    {
+        super(file);
     }
 
     /**
-     * @return il contenuto presente all'interno del workspace nel formato LinkedHashMap
+     * Deserializzo il file.
+     * @return il contenuto all'interno del workspace nel formato LinkedHashMap
      */
     public LinkedHashMap<String, String> getFileContent()
     {
-        return new ApplicationFileParser(this.file).getFileContent();
+        LinkedHashMap<String, String> content = null;
+
+        try
+        {
+            FileInputStream fileInputStream = new FileInputStream(getFile());
+            ObjectInputStream in = new ObjectInputStream(fileInputStream);
+            content = (LinkedHashMap<String, String>) in.readObject();
+            fileInputStream.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return content;
     }
 
 
     /**
-     * Salva lo stato dell'attuale workspace
+     * Serializzo il file.
+     * Salva lo stato dell'attuale workspace.
      * @param content
      */
     public void update(LinkedHashMap<String, String> content)
     {
-        new ApplicationFileParser(this.file).update(content);
+        try
+        {
+            FileOutputStream fileOutputStream = new FileOutputStream(getFile());
+            ObjectOutputStream out = new ObjectOutputStream(fileOutputStream);
+            out.writeObject(content);
+            out.close();
+            fileOutputStream.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

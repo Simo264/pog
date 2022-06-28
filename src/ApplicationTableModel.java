@@ -1,6 +1,5 @@
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -12,124 +11,127 @@ import java.util.Vector;
  */
 public class ApplicationTableModel extends DefaultTableModel
 {
-    private Application applicationParent;
+  private Application applicationParent;
 
-    private int nRows;
-    private final int NUM_COL = 26;
+  private int nRows;
+  private final int NUM_COL = 26;
 
-    ApplicationTableModel(Application parent)
+  ApplicationTableModel(Application parent)
+  {
+    super();
+
+    applicationParent = parent;
+
+    LinkedHashMap<String, String> fileContent = applicationParent.appConfigurationFile.getFileContent();
+    nRows = Integer.parseInt(fileContent.get("table-num-rows"));
+
+    addColumns();
+    addRows();
+
+    load(applicationParent.appWorkspace.getFileContent());
+
+    addTableModelListener(tableModelEvent -> {
+      onUpdate();
+    });
+ }
+
+
+  @Override
+  public boolean isCellEditable(int row, int column) { return (column != 0); }
+
+  /**
+   * @return il contenuto della tabella in formato LinkedHashMap
+   */
+  public final LinkedHashMap<String, String> getTableContent()
+  {
+    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+    for (int i = 0; i < nRows; i++)
     {
-        super();
-
-        applicationParent = parent;
-
-        LinkedHashMap<String, String> fileContent = applicationParent.configurationFile.getFileContent();
-        nRows = Integer.parseInt(fileContent.get("table-num-rows"));
-
-        addColumns();
-        addRows();
-
-        load(applicationParent.workspace.getFileContent());
-
-        addTableModelListener(tableModelEvent -> {
-            onUpdate();
-        });
-   }
-
-
-    @Override
-    public boolean isCellEditable(int row, int column) { return (column != 0); }
-
-    /**
-     * @return il contenuto della tabella in formato LinkedHashMap
-     */
-    public final LinkedHashMap<String, String> getContent()
-    {
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        for (int i = 0; i < nRows; i++)
+      for (int j = 1; j < NUM_COL; j++)
+      {
+        final Object objectValue = getValueAt(i,j);
+        if(objectValue != null)
         {
-            for (int j = 1; j < NUM_COL; j++)
-            {
-                final Object objectValue = getValueAt(i,j);
-                if(objectValue != null)
-                {
-                    Point point = new Point(j-1, i);
-                    ApplicationCoordinate applicationCoordinate = new ApplicationCoordinate(point);
-                    map.put(applicationCoordinate.toString(), objectValue.toString());
-                }
-            }
+            Point point = new Point(j-1, i);
+            ApplicationCoordinate applicationCoordinate = new ApplicationCoordinate(point);
+            map.put(applicationCoordinate.toString(), objectValue.toString());
         }
-        return map;
+      }
     }
+    return map;
+  }
 
-    /**
-     * Viene caricato nella tabella il contenuto di hashMap passato come parametro
-     * @param hashMap
-     */
-    public void load(LinkedHashMap<String, String> hashMap)
+  /**
+   * Viene caricato nella tabella il contenuto di hashMap passato come parametro
+   * @param hashMap
+   */
+  public void load(LinkedHashMap<String, String> hashMap)
+  {
+    if(hashMap == null) return;
+    if(hashMap.isEmpty()) return;
+
+    for (Map.Entry<String, String> map : hashMap.entrySet())
     {
-        for (Map.Entry<String, String> map : hashMap.entrySet())
+      ApplicationCoordinate applicationCoordinate = new ApplicationCoordinate(map.getKey());
+      String value = map.getValue();
+
+      Point point = applicationCoordinate.reverse();
+      setValueAt(value, point.y, point.x+1);
+    }
+  }
+
+  /**
+   * Svuota la tabella
+   */
+  public void emptyTable()
+  {
+    for (int i = 0; i < nRows; i++)
+      for (int j = 1; j < NUM_COL; j++)
+        setValueAt(null, i, j);
+  }
+
+
+
+  private void addColumns()
+  {
+    addColumn("#");
+    for (int i = 0; i < NUM_COL; i++)
+      addColumn((char)(i + 'A'));
+  }
+  private void addRows()
+  {
+    for (int i = 0; i < nRows; i++)
+    {
+      addRow(new Vector<String>(nRows));
+      setValueAt(i, i, 0);
+    }
+  }
+  private void onUpdate()
+  {
+    ApplicationCell cell = null;
+    ApplicationCellFormula cellFormula = null;
+
+    for (int i = 0; i < nRows; i++)
+    {
+      for (int j = 1; j < NUM_COL; j++)
+      {
+        cell = new ApplicationCell(getValueAt(i,j));
+        if(!cell.isValid()) continue;
+
+        if(cell.containsFormula())
         {
-            ApplicationCoordinate applicationCoordinate = new ApplicationCoordinate(map.getKey());
-            String value = map.getValue();
+          cellFormula = new ApplicationCellFormula(cell);
+          if(!cellFormula.isValid())
+          {
+            System.err.println("Formula is not valid!");
+            setValueAt(null, i, j);
+            return;
+          }
 
-            Point point = applicationCoordinate.reverse();
-            setValueAt(value, point.y, point.x+1);
+          Object o = cellFormula.resolve(this);
+          setValueAt(o, i, j);
         }
+      }
     }
-
-    /**
-     * Svuota la tabella
-     */
-    public void emptyTable()
-    {
-        for (int i = 0; i < nRows; i++)
-            for (int j = 1; j < NUM_COL; j++)
-                setValueAt(null, i, j);
-    }
-
-
-
-    private void addColumns()
-    {
-        addColumn("#");
-        for (int i = 0; i < NUM_COL; i++)
-            addColumn((char)(i + 'A'));
-    }
-    private void addRows()
-    {
-        for (int i = 0; i < nRows; i++)
-        {
-            addRow(new Vector<String>(nRows));
-            setValueAt(i, i, 0);
-        }
-    }
-    private void onUpdate()
-    {
-        ApplicationCell cell = null;
-        ApplicationCellFormula cellFormula = null;
-
-        for (int i = 0; i < nRows; i++)
-        {
-            for (int j = 1; j < NUM_COL; j++)
-            {
-                cell = new ApplicationCell(getValueAt(i,j));
-                if(!cell.isValid()) continue;
-
-                if(cell.containsFormula())
-                {
-                    cellFormula = new ApplicationCellFormula(cell);
-                    if(!cellFormula.isValid())
-                    {
-                        System.err.println("Formula is not valid!");
-                        setValueAt(null, i, j);
-                        return;
-                    }
-
-                    Object o = cellFormula.resolve(this);
-                    setValueAt(o, i, j);
-                }
-            }
-        }
-    }
+  }
 }

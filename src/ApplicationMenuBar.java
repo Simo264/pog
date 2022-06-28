@@ -4,13 +4,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.util.LinkedHashMap;
-
 
 /**
  * MenuBarComponent è il componente menu del frame principale.
@@ -86,23 +83,24 @@ public class ApplicationMenuBar extends JMenuBar
         if (returnVal == JFileChooser.CANCEL_OPTION) return ;
 
         // Il nuovo workspace diventa il file selezionato
-        File file = fileChooser.getSelectedFile();
-        applicationParent.workspace.setFile(file);
+        File fileOpened = fileChooser.getSelectedFile();
+        applicationParent.appWorkspace.setFile(fileOpened);
 
         // Svuota la tabella
-        ApplicationTableModel applicationTableModel = applicationParent.applicationPanel.applicationTableModel;
+        ApplicationTableModel applicationTableModel = applicationParent.appPanel.applicationTableModel;
         applicationTableModel.emptyTable();
 
         // Carica il contenuto nella tabella
-        applicationTableModel.load(applicationParent.workspace.getFileContent());
+        applicationTableModel.load(applicationParent.appWorkspace.getFileContent());
+
+        applicationParent.appLogger.update("Opened new workspace: " + fileOpened.toString());
     }
 
 
     /**
      * Evento salva file: viene creato una copia del workspace attuale
      * nella directory e con nome scelto dall'utente.
-     * Il workspace attuale rimane quello attuale o di default o il file
-     * scelto dall'utente
+     * Il workspace attuale rimane quello attuale.
      * */
     private static void saveEvent()
     {
@@ -127,9 +125,11 @@ public class ApplicationMenuBar extends JMenuBar
         try
         {
             Files.copy(
-                    applicationParent.workspace.getFile().toPath(),
+                    applicationParent.appWorkspace.getFile().toPath(),
                     fileCopy.toPath()
             );
+
+            applicationParent.appLogger.update("Saved workspace in " + fileCopy.toPath().toString());
         }
         catch (IOException e)
         {
@@ -144,8 +144,9 @@ public class ApplicationMenuBar extends JMenuBar
      * */
     private static void newFileEvent()
     {
-        applicationParent.workspace.update(new LinkedHashMap<String, String>());
-        applicationParent.applicationPanel.applicationTableModel.emptyTable();
+        applicationParent.appWorkspace.empty();
+        applicationParent.appPanel.applicationTableModel.emptyTable();
+        applicationParent.appLogger.update("New file event...");
     }
 
     private static void ghLinkEvent()
@@ -153,6 +154,7 @@ public class ApplicationMenuBar extends JMenuBar
         try
         {
             Desktop.getDesktop().browse(new URI("https://github.com/Simo264/pog"));
+            applicationParent.appLogger.update("Opened github link");
         }
         catch (IOException e) { e.printStackTrace(System.err); }
         catch (URISyntaxException e) { e.printStackTrace(System.err); }
@@ -160,6 +162,7 @@ public class ApplicationMenuBar extends JMenuBar
 
     private static void exitEvent()
     {
+        applicationParent.appLogger.update("Close application...");
         System.exit(0);
     }
 }

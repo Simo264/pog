@@ -45,9 +45,9 @@ public class Application extends JFrame
    */
   public Application()
   {
-    appConfigurationFile = new ApplicationConfigFile();
-    appWorkspace = new ApplicationWorkspace();
     appLogger = new ApplicationLogger();
+    appConfigurationFile = new ApplicationConfigFile();
+    appWorkspace = new ApplicationWorkspace(this);
 
     appMenuBar = new ApplicationMenuBar(this);
     appPanel = new ApplicationPanel(this);

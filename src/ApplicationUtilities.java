@@ -13,11 +13,11 @@ public class ApplicationUtilities
   {
     return d1 + d2;
   }
-  public static Double sub(Double d1, Double d2)
+  public static Double subtract(Double d1, Double d2)
   {
-    return d1 -d2;
+    return d1 - d2;
   }
-  public static boolean stringNumeric(String s)
+  public static boolean isNumeric(String s)
   {
     try
     {
@@ -29,5 +29,6 @@ public class ApplicationUtilities
     }
     return true;
   }
+
 
 }

@@ -17,21 +17,27 @@ public class ApplicationWorkspace extends ApplicationFileWrapper <LinkedHashMap<
   private static final String DEFAULT_FILE_PATH =
       ApplicationPaths.getConfigDirectoryPath() + "/" + DEFAULT_FILE_NAME;
 
-  public ApplicationWorkspace()
+  private Application applicationParent;
+
+  public ApplicationWorkspace(Application application)
   {
     super(DEFAULT_FILE_PATH);
+    applicationParent = application;
 
     if(!getFile().exists())
     {
       try
       {
         getFile().createNewFile();
-        initFile();
+        empty();
       }
       catch (IOException e)
       {
-        JOptionPane.showMessageDialog(
-            null, e.getMessage(),"IOException", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace(System.err);
+        applicationParent.appLogger.update(
+            String.format("[Error] [%s] Failed on creating new workspace file. Exit...", e)
+        );
+
         System.exit(-1);
       }
     }
@@ -99,8 +105,4 @@ public class ApplicationWorkspace extends ApplicationFileWrapper <LinkedHashMap<
   {
     update(new LinkedHashMap<>());
   }
-
-
-
-  private void initFile() { empty(); }
 }

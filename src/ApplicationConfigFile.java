@@ -11,7 +11,7 @@ public class ApplicationConfigFile extends ApplicationFileWrapper <LinkedHashMap
 {
   private static final String DEFAULT_FILE_NAME = "application.config";
   private static final String DEFAULT_FILE_PATH =
-      ApplicationPaths.getConfigDirectoryPath() + "/" + DEFAULT_FILE_NAME;;
+      ApplicationPaths.getConfigDirectoryPath() + "/" + DEFAULT_FILE_NAME;
 
   ApplicationConfigFile()
   {
@@ -38,7 +38,7 @@ public class ApplicationConfigFile extends ApplicationFileWrapper <LinkedHashMap
         mapping.put(k, v);
       }
     }
-    catch (FileNotFoundException e) { e.printStackTrace(System.err); }
+    catch (FileNotFoundException e)  { e.printStackTrace(System.err); }
     catch (ArrayIndexOutOfBoundsException e) { e.printStackTrace(System.err); }
     return mapping;
   }

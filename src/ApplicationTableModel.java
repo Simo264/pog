@@ -32,6 +32,10 @@ public class ApplicationTableModel extends DefaultTableModel
 
     addTableModelListener(tableModelEvent -> {
       onUpdate();
+
+      applicationParent.appLogger.update(
+          String.format("Table has been updated with new values")
+      );
     });
  }
 
@@ -115,7 +119,26 @@ public class ApplicationTableModel extends DefaultTableModel
     {
       for (int j = 1; j < NUM_COL; j++)
       {
-        cell = new ApplicationCell(getValueAt(i,j));
+        Object o = getValueAt(i,j);
+
+        // If is numeric
+        if(ApplicationUtilities.isNumeric(o.toString()))
+        {
+
+        }
+        // If is formula
+        else if (o.toString().charAt(0) == '=')
+        {
+
+        }
+        // Otherwise
+        else
+        {
+
+        }
+
+        /*
+        cell = new ApplicationCell();
         if(!cell.isValid()) continue;
 
         if(cell.containsFormula())
@@ -130,7 +153,9 @@ public class ApplicationTableModel extends DefaultTableModel
 
           Object o = cellFormula.resolve(this);
           setValueAt(o, i, j);
-        }
+         */
+
+
       }
     }
   }

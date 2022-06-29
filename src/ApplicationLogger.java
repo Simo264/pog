@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 /**
  * ApplicationLogger estende la classe ApplicationFileWrapper, rappresenta il logger
- * dell'applicazione (log/log.txt): viene tenuto traccia dell'attività dell'utente, i log di
- * errore...
+ * dell'applicazione (log/log.txt): vengono segnate tutte le informazioni riguardanti
+ * gli eventi dell'utente (apertura/salvataggio di un nuovo workspace, aggiornamento tabella...),
+ * informazioni su crash del programma e informazioni generali.
  */
 public class ApplicationLogger extends ApplicationFileWrapper <String>
 {

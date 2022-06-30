@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['resolve_25',['resolve',['../classApplicationCellFormula.html#ab586303b5bf0e051b9abecc0d0940c79',1,'ApplicationCellFormula']]],
-  ['reverse_26',['reverse',['../classApplicationCoordinate.html#a1c4b83e3202a30a3c9d28769409f618b',1,'ApplicationCoordinate']]],
-  ['run_27',['run',['../classApplicationThread.html#a4d7bf64849d098c91c88daf669381284',1,'ApplicationThread']]]
+  ['setfile_36',['setFile',['../classApplicationFileWrapper.html#a88e819b34516050b65d055b6d1d8cc97',1,'ApplicationFileWrapper']]],
+  ['start_37',['start',['../classApplication.html#aff91ba26a8025ba08b2ac3accced3dcf',1,'Application']]]
 ];

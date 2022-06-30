@@ -23,12 +23,12 @@
  @licend  The above is the entire license notice for the JavaScript code in this file
 */
 var menudata={children:[
-{text:"Pagina Principale",url:"index.html"},
-{text:"Classi",url:"annotated.html",children:[
-{text:"Elenco dei tipi composti",url:"annotated.html"},
-{text:"Indice dei tipi composti",url:"classes.html"},
-{text:"Gerarchia delle classi",url:"inherits.html"},
-{text:"Membri dei composti",url:"functions.html",children:[
-{text:"Tutto",url:"functions.html"},
-{text:"Funzioni",url:"functions_func.html"},
-{text:"Variabili",url:"functions_vars.html"}]}]}]}
+{text:"Main Page",url:"index.html"},
+{text:"Classes",url:"annotated.html",children:[
+{text:"Class List",url:"annotated.html"},
+{text:"Class Index",url:"classes.html"},
+{text:"Class Hierarchy",url:"hierarchy.html"},
+{text:"Class Members",url:"functions.html",children:[
+{text:"All",url:"functions.html"},
+{text:"Functions",url:"functions_func.html"},
+{text:"Variables",url:"functions_vars.html"}]}]}]}

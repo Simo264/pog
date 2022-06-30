@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['load_56',['load',['../classApplicationTableModel.html#ac624bb1bd09090c9870e0325cae2ebce',1,'ApplicationTableModel']]]
+  ['resolve_70',['resolve',['../classApplicationCell.html#a7b29bec8ca90bedf458e5356f31f64e0',1,'ApplicationCell']]],
+  ['resolveformula_71',['resolveFormula',['../classApplicationFormula.html#ae3f9e1528d4dc8fbafccea0cb77e936e',1,'ApplicationFormula']]],
+  ['reverse_72',['reverse',['../classApplicationCoordinate.html#a1c4b83e3202a30a3c9d28769409f618b',1,'ApplicationCoordinate']]]
 ];

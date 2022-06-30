@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['containsformula_48',['containsFormula',['../classApplicationCell.html#ab47aaf64d9ab7a13c5c49b067a51aea5',1,'ApplicationCell.containsFormula()'],['../classApplicationCellFormula.html#af2e2f863114ae42c74993a2750709fc1',1,'ApplicationCellFormula.containsFormula()']]]
+  ['empty_62',['empty',['../classApplicationWorkspace.html#a4698d0b54f74bbe1f51f0189402c29af',1,'ApplicationWorkspace']]],
+  ['emptytable_63',['emptyTable',['../classApplicationTableModel.html#a652f20a25d1109184ad93a32ccbdf780',1,'ApplicationTableModel']]]
 ];

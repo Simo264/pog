@@ -1,9 +1,9 @@
 var indexSectionsWithContent =
 {
-  0: "acegilmrsuw",
+  0: "aegilmrsu",
   1: "am",
-  2: "acegilrsu",
-  3: "aw"
+  2: "aegilrsu",
+  3: "a"
 };
 
 var indexSectionNames =
@@ -16,9 +16,9 @@ var indexSectionNames =
 
 var indexSectionLabels =
 {
-  0: "Tutto",
-  1: "Classi",
-  2: "Funzioni",
-  3: "Variabili"
+  0: "All",
+  1: "Classes",
+  2: "Functions",
+  3: "Variables"
 };
 

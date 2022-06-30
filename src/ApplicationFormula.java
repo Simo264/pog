@@ -28,7 +28,11 @@ public class ApplicationFormula
   ApplicationFormula(String formula)
   {
     this.formula = formula;
-    formulaOP = getFormulaOP();
+
+    formulaOP = EOperations.ASSIGNMENT;
+    if(formula.contains("+")) formulaOP = EOperations.SUM;
+    else if(formula.contains("-")) formulaOP =  EOperations.SUBTRACT;
+
     operands = splitOperands();
   }
 
@@ -58,17 +62,7 @@ public class ApplicationFormula
     return null;
   }
 
-  @Override
-  public String toString() { return formula; }
-
-
-
-  private EOperations getFormulaOP()
-  {
-    if(formula.contains("+")) return EOperations.SUM;
-    if(formula.contains("-")) return EOperations.SUBTRACT;
-    return EOperations.ASSIGNMENT;
-  }
+  
   private String[] splitOperands()
   {
     if(formulaOP == EOperations.SUBTRACT)
@@ -107,8 +101,8 @@ public class ApplicationFormula
       Point p1 = new ApplicationCoordinate(operands[0]).reverse();
       Point p2 = new ApplicationCoordinate(operands[1]).reverse();
 
-      String s1 = tableModel.getValueAt(p1.y, p1.x).toString();
-      String s2 = tableModel.getValueAt(p2.y, p2.x).toString();
+      String s1 = tableModel.getValueAt(p1.y, p1.x + 1).toString();
+      String s2 = tableModel.getValueAt(p2.y, p2.x + 1).toString();
 
       //Se sono entrambi valori numerici li considero come Double e non come String
       if(ApplicationUtilities.isNumeric(s1) && ApplicationUtilities.isNumeric(s2))
@@ -151,7 +145,7 @@ public class ApplicationFormula
       }
 
       Point p = new ApplicationCoordinate(operands[i]).reverse();
-      String s = tableModel.getValueAt(p.y, p.x).toString();
+      String s = tableModel.getValueAt(p.y, p.x + 1).toString();
 
       // se sono entrambi valori numerici li sommo
       if(areBothNumerics(operands[j], s))
@@ -174,8 +168,8 @@ public class ApplicationFormula
       Point p1 = new ApplicationCoordinate(operands[0]).reverse();
       Point p2 = new ApplicationCoordinate(operands[1]).reverse();
 
-      String s1 = tableModel.getValueAt(p1.y, p1.x).toString();
-      String s2 = tableModel.getValueAt(p2.y, p2.x).toString();
+      String s1 = tableModel.getValueAt(p1.y, p1.x + 1).toString();
+      String s2 = tableModel.getValueAt(p2.y, p2.x + 1).toString();
 
       //Se sono entrambi valori numerici li considero come Double e non come String
       if(ApplicationUtilities.isNumeric(s1) && ApplicationUtilities.isNumeric(s2))

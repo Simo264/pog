@@ -36,7 +36,7 @@ public class Application extends JFrame
   /**
    * Thred usato per l'autosalvataggio del workspace
    */
-  private final ApplicationThread autoSaveThread;
+  private Thread threadForSaving;
 
 
   /**
@@ -52,10 +52,12 @@ public class Application extends JFrame
     appMenuBar = new ApplicationMenuBar(this);
     appPanel = new ApplicationPanel(this);
 
-    autoSaveThread = new ApplicationThread(
-        appPanel.applicationTableModel,
-        appWorkspace,
-        Double.parseDouble(appConfigurationFile.getFileContent().get("autosave-time-seconds"))
+    threadForSaving = new Thread(
+        new Runnable()
+        {
+          @Override
+          public void run() { autoSave(); }
+        }
     );
 
     appLogger.update("Application initialized!");
@@ -72,7 +74,8 @@ public class Application extends JFrame
     setJMenuBar(appMenuBar);
     add(appPanel);
 
-    autoSaveThread.start();
+    threadForSaving.setDaemon(true);
+    threadForSaving.start();
   }
 
 
@@ -97,5 +100,24 @@ public class Application extends JFrame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
     pack();
+  }
+
+  private void autoSave()
+  {
+    final Double timeBetween = Double.parseDouble(
+        appConfigurationFile.getFileContent().get("autosave-time-seconds"));
+
+    long Told = System.currentTimeMillis();
+    long Tnew;
+
+    while(true)
+    {
+      Tnew = System.currentTimeMillis();
+      if((Tnew - Told) >= (timeBetween * 10e2))
+      {
+        appWorkspace.update(appPanel.applicationTableModel.getTableContent());
+        Told = System.currentTimeMillis();
+      }
+    }
   }
 }

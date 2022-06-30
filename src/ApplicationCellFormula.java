@@ -1,18 +1,18 @@
 public class ApplicationCellFormula extends ApplicationCell <String>
 {
-  private ApplicationFormula applicationFormula;
+  private ApplicationFormula formula;
   private ApplicationTableModel tableModel;
 
 
   ApplicationCellFormula(String formula)
   {
     super(formula);
-    applicationFormula = new ApplicationFormula(formula);
+    this.formula = new ApplicationFormula(formula);
   }
 
   public String resolve()
   {
-    return applicationFormula.resolveFormula(tableModel);
+    return formula.resolveFormula(tableModel);
   }
   public void setTableModel(ApplicationTableModel tableModel)
   {

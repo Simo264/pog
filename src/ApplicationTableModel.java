@@ -1,3 +1,5 @@
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.LinkedHashMap;
@@ -30,12 +32,15 @@ public class ApplicationTableModel extends DefaultTableModel
 
     load(applicationParent.appWorkspace.getFileContent());
 
-    addTableModelListener(tableModelEvent -> {
-      onUpdate();
+    addTableModelListener(new TableModelListener()
+    {
+      public void tableChanged(TableModelEvent e)
+      {
+        onUpdate();
 
-      applicationParent.appLogger.update(
-          String.format("Table has been updated with new values")
-      );
+        applicationParent.appLogger.update(
+            String.format("Table has been updated with new values"));
+      }
     });
  }
 
@@ -112,49 +117,35 @@ public class ApplicationTableModel extends DefaultTableModel
   }
   private void onUpdate()
   {
-    ApplicationCell cell = null;
-    ApplicationCellFormula cellFormula = null;
-
     for (int i = 0; i < nRows; i++)
     {
       for (int j = 1; j < NUM_COL; j++)
       {
-        Object o = getValueAt(i,j);
+        Object obj = getValueAt(i,j);
+
+        if(obj == null) continue;
+        if(obj.toString().isEmpty()) continue;
 
         // If is numeric
-        if(ApplicationUtilities.isNumeric(o.toString()))
-        {
+        if(ApplicationUtilities.isNumeric(obj.toString()))
+          obj = new ApplicationCellNumeric(
+              Double.parseDouble(obj.toString()))
+              .resolve();
 
-        }
         // If is formula
-        else if (o.toString().charAt(0) == '=')
+        else if (obj.toString().charAt(0) == '=')
         {
-
+          ApplicationCellFormula cellFormula = new ApplicationCellFormula(
+                  obj.toString().substring(1)
+              );
+          cellFormula.setTableModel(this);
+          obj = cellFormula.resolve();
+          setValueAt(obj, i, j);
         }
-        // Otherwise
+
+        // If is plain String
         else
-        {
-
-        }
-
-        /*
-        cell = new ApplicationCell();
-        if(!cell.isValid()) continue;
-
-        if(cell.containsFormula())
-        {
-          cellFormula = new ApplicationCellFormula(cell);
-          if(!cellFormula.isValid())
-          {
-            System.err.println("Formula is not valid!");
-            setValueAt(null, i, j);
-            return;
-          }
-
-          Object o = cellFormula.resolve(this);
-          setValueAt(o, i, j);
-         */
-
+          obj = new ApplicationCellString(obj.toString()).resolve();
 
       }
     }

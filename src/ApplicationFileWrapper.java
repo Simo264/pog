@@ -1,7 +1,4 @@
-import javax.swing.*;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * E' una classe astratta che rappresenta un wrapper di un generico File.

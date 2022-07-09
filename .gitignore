@@ -1,5 +1,5 @@
 pog.iml
 out/
 .idea/
-configs/workspace.bin
-log/log.txt
+workspace.bin
+log.txt
